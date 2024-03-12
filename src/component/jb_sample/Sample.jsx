@@ -24,11 +24,11 @@ const Sample = () => {
        
       </div>
 
-      <div className='mt-[5.5rem] flex mr-10'>
-        <Input className="w-[25rem] " placeholder="Filter by sample name" />
-        <Input className="w-[15rem] mx-4 " placeholder="Filter by sample ID" />
-        <Button className=" text-gray-600  border">Quality</Button>
-        <Button className=" text-gray-600  border mx-4">Process</Button>
+      <div className='mt-[5.5rem] flex '>
+        <Input className="w-[20rem] " placeholder="Filter by sample name" />
+        <Input className="w-[10rem] mx-4 " placeholder="Filter by sample ID" />
+        <Button className="   border text-white">Quality</Button>
+        <Button className=" text-white  border mx-4">Process</Button>
         <Button className="bg-gray-800">
           <CiFilter className='text-[1.4rem]' />
           Filter the records
