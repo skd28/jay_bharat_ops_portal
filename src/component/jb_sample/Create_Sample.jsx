@@ -76,7 +76,7 @@ const Create_Sample = () => {
                 </div>
 
                 <div className='flex gap-5 mt-20 px-7'>
-                    <div className=' xl:w-[20rem] lg:w-[15rem] border py-10 px-7 rounded-lg h-[60rem] '>
+                    <div className='  border py-10 px-7 rounded-lg h-[60rem] '>
                         <p>Upload the sample image</p>
                         <img className='rounded-lg py-5 w-[20rem] ' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-4UrNveMngjY3HyNG5922XI7nzIudTijew&usqp=CAU' alt='...' />
                         <div className="border-2 border-black  rounded-lg border-dotted xl:w-[16.5rem] lg:w-[11.5rem] h-[8rem] flex items-center justify-center">
