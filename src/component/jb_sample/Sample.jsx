@@ -9,9 +9,9 @@ import { Link } from 'react-router-dom';
 
 const Sample = () => {
   return (
-    <div className=' w-[100rem] mt-[4.5rem] ml-[5rem]  '>
+    <div className='  mt-[4.5rem] ml-[5rem]  '>
 
-      <div className=' flex  justify-between '>
+      <div className=' flex  justify-between mr-5 '>
         <div>
           <h1 className='text-[2rem] font-inter font-semibold'>
             Stage 0: Sample
@@ -24,7 +24,7 @@ const Sample = () => {
        
       </div>
 
-      <div className='mt-[5.5rem] flex'>
+      <div className='mt-[5.5rem] flex mr-10'>
         <Input className="w-[25rem] " placeholder="Filter by sample name" />
         <Input className="w-[15rem] mx-4 " placeholder="Filter by sample ID" />
         <Button className=" text-gray-600  border">Quality</Button>
