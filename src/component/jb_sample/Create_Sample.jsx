@@ -97,7 +97,7 @@ const Create_Sample = () => {
 
                     </div>
                     <div >
-                        <div className='border-2 xl:w-[60rem] lg:w-[40rem]   pt-16  xl:pl-14 lg:pl-8 rounded-lg py-8'>
+                        <div className='border-2   pt-16  xl:pl-14 lg:pl-8 rounded-lg py-8'>
 
 
                             <div className='flex items-center'>
