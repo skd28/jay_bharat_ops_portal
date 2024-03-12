@@ -11,14 +11,14 @@ const Sample = () => {
   return (
     <div className='  mt-[4.5rem] ml-[5rem]  '>
 
-      <div className=' flex  justify-between mr-5 '>
+      <div className=' flex  justify-between  '>
         <div>
           <h1 className='text-[2rem] font-inter font-semibold'>
             Stage 0: Sample
           </h1>
           <p>Create, manage and remove sampling and track the process.</p>
         </div>
-        <Button className="rounded-full font-inter text-[1rem] bg-gray-700 h-12 mr-[4rem] ">
+        <Button className="rounded-full font-inter text-[1rem] bg-gray-700 h-12  ">
         <Link to='/jb_admin/sample/sampling'>+ Sample</Link>
         </Button>
        
