@@ -5,12 +5,25 @@ import { Link } from 'react-router-dom';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
-import { SlMinus } from "react-icons/sl";
+import { SlMinus } from "react-icons/sl"
+
+
+import { format } from "date-fns"
+import { Calendar as CalendarIcon } from "lucide-react"
+
+import { cn } from "@/lib/utils"
+
+import { Calendar } from "@/components/ui/calendar"
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover"
 
 
 const Create_Sample = () => {
 
-
+    const [date, setDate] = React.useState();
 
 
     const [fabricForms, setFabricForms] = useState([{ id: 1 }]);
@@ -66,7 +79,7 @@ const Create_Sample = () => {
 
     return (
         <>
-            <div className='mt-[4rem] ml-[3rem]   '>
+            <div className='mt-[4rem] ml-[3rem]  '>
 
                 <div className='flex items-center'>
                     <Link to='/jb_admin/sample'  >  <FaAngleLeft className='text-[1rem] border-2  w-[2rem] h-[2rem] rounded-full' /></Link>
@@ -88,11 +101,75 @@ const Create_Sample = () => {
                             <p className='font-inter'>Client Code</p>
                             <Input className=" my-3 " placeholder="Eg:SW_CL_001" />
                             <p className='font-inter'>Start date of Sampling</p>
-                            <Input className=" my-3 " placeholder="Eg:2024-12-23" />
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-[280px] justify-start text-left font-normal",
+                                            !date && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                        mode="single"
+                                        selected={date}
+                                        onSelect={setDate}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
+
                             <p className='font-inter'>End date of Sampling</p>
-                            <Input className=" my-3 " placeholder="Eg:2023-12-23" />
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-[280px] justify-start text-left font-normal",
+                                            !date && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                        mode="single"
+                                        selected={date}
+                                        onSelect={setDate}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
                             <p className='font-inter'>Date of Dispatch</p>
-                            <Input className=" my-3 " placeholder="Eg:2024-12-30" />
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-[280px] justify-start text-left font-normal",
+                                            !date && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {date ? format(date, "PPP") : <span>Pick a date</span>}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                    <Calendar
+                                        mode="single"
+                                        selected={date}
+                                        onSelect={setDate}
+                                        initialFocus
+                                    />
+                                </PopoverContent>
+                            </Popover>
                         </div>
 
                     </div>
