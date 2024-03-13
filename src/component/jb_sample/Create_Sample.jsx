@@ -114,11 +114,11 @@ const Create_Sample = () => {
                                     <div className='flex items-center xl:gap-4 '>
                                         <div className='grid grid-cols-2 w-[40rem] gap-2'>
                                             <div className='flex items-center    gap-1'>
-                                                <p className='font-medium lg:w-[6rem] xl:w-[8rem] lg:text-[0.8rem]  xl:text-[1rem] '>Select Fabric quality</p>
+                                                <p className='font-medium lg:text-[0.8rem]  xl:text-[1rem] '>Select Fabric quality</p>
                                                 <Input className="xl:w-[18rem] lg:w-[10rem] my-3" placeholder="Add value" />
                                             </div>
                                             <div className='flex items-center '>
-                                                <p className='font-medium lg:w-[6rem] xl:w-[8rem] lg:text-[0.8rem]  xl:text-[1rem]  '>Cost of  Fabrics</p>
+                                                <p className='font-medium  lg:text-[0.8rem]  xl:text-[1rem]  '>Cost of  Fabrics</p>
                                                 <Input className=" xl:w-[18rem] lg:w-[10rem] my-3   " placeholder="Add value" />
                                             </div>
                                         </div>
@@ -127,7 +127,7 @@ const Create_Sample = () => {
                                         )}
                                         {form.id === 1 && (
                                             <div className='mr-[2.1rem]'></div>
-                                            // <SlMinus onClick={() => deleteFabricForm(form.id)} className=" text-[1.3rem] mr-4 " />
+                                            
                                         )}
 
                                     </div>
@@ -143,7 +143,7 @@ const Create_Sample = () => {
 
 
 
-                            <h1 className='underline font-semibold text-[1.2rem] my-4 mt-20 '>Embroidery</h1>
+                            {/* <h1 className='underline font-semibold text-[1.2rem] my-4 mt-20 '>Embroidery</h1>
                             {EmbroideryForm.map((form, index) => (
                                 <div key={form.id} >
                                     <div className='grid grid-cols-2  w-[53.5rem]'>
@@ -291,7 +291,7 @@ const Create_Sample = () => {
                                     <p className='font-medium   w-[7rem] '>End Date</p>
                                     <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value" />
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
 
                         <div className='text-right my-3 mb-7'>
