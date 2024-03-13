@@ -143,28 +143,28 @@ const Create_Sample = () => {
 
 
 
-                            {/* <h1 className='underline font-semibold text-[1.2rem] my-4 mt-20 '>Embroidery</h1>
+                            <h1 className='underline font-semibold text-[1.2rem] my-4 mt-20 '>Embroidery</h1>
                             {EmbroideryForm.map((form, index) => (
                                 <div key={form.id} >
-                                    <div className='grid grid-cols-2  w-[53.5rem]'>
+                                    <div className='grid grid-cols-2  '>
                                         <div className='flex items-center'>
-                                            <p className='font-medium  w-[6rem] '>Embroidery No.</p>
-                                            <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value" />
+                                            <p className='font-medium   '>Embroidery No.</p>
+                                            <Input className="xl:w-[18rem] lg:w-[10rem] my-3 " placeholder="Add value" />
                                         </div>
                                         <div className='flex items-center'>
                                             <p className='font-medium w-[6rem]'>Cost of Embroidery</p>
-                                            <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2" placeholder="Add value" />
+                                            <Input className="xl:w-[18rem] lg:w-[10rem] my-3" placeholder="Add value" />
                                         </div>
                                     </div>
                                     <div className='flex items-center'>
                                         <div className='grid grid-cols-2  w-[53.5rem]'>
                                             <div className='flex items-center'>
                                                 <p className='font-medium w-[6rem]'>Start Date</p>
-                                                <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value" />
+                                                <Input className="xl:w-[18rem] lg:w-[10rem] my-3 " placeholder="Add value" />
                                             </div>
                                             <div className='flex items-center'>
                                                 <p className='font-medium w-[6rem]'>End Date</p>
-                                                <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2" placeholder="Add value" />
+                                                <Input className="xl:w-[18rem] lg:w-[10rem] my-3" placeholder="Add value" />
                                             </div>
                                         </div>
                                         {form.id !== 1 && (
@@ -188,11 +188,11 @@ const Create_Sample = () => {
                                         <div className='grid grid-cols-2  w-[53rem]'>
                                             <div className='flex items-center'>
                                                 <p className='font-medium w-[8rem] '>Shiffly number</p>
-                                                <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value" />
+                                                <Input className="xl:w-[18rem] lg:w-[10rem] my-3 " placeholder="Add value" />
                                             </div>
                                             <div className='flex items-center '>
                                                 <p className='font-medium  w-[8rem]   '>Cost of Shiffly</p>
-                                                <Input className=" xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value" />
+                                                <Input className="xl:w-[18rem] lg:w-[10rem] my-3 " placeholder="Add value" />
                                             </div>
                                         </div>
                                         {form.id !== 1 && (
@@ -207,7 +207,7 @@ const Create_Sample = () => {
 
 
 
-
+{/* 
                             <h1 className='underline font-semibold text-[1.2rem] my-4 mt-20 '>Hand Embroidery</h1>
                             {HandEmbroideryForm.map((form, index) => (
                                 <div key={form.id} >
