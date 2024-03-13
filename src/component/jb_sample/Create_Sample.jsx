@@ -146,7 +146,7 @@ const Create_Sample = () => {
                             <h1 className='underline font-semibold text-[1.2rem] my-4 mt-20 '>Embroidery</h1>
                             {EmbroideryForm.map((form, index) => (
                                 <div key={form.id} >
-                                    <div className='grid grid-cols-2  '>
+                                    <div className='grid grid-cols-2 w-[40rem] '>
                                         <div className='flex items-center'>
                                             <p className='font-medium   '>Embroidery No.</p>
                                             <Input className="xl:w-[18rem] lg:w-[10rem] my-3 " placeholder="Add value" />
@@ -156,8 +156,8 @@ const Create_Sample = () => {
                                             <Input className="xl:w-[18rem] lg:w-[10rem] my-3" placeholder="Add value" />
                                         </div>
                                     </div>
-                                    <div className='flex items-center'>
-                                        <div className='grid grid-cols-2  w-[53.5rem]'>
+                                    <div className='flex items-center '>
+                                        <div className='grid grid-cols-2  w-[40rem]'>
                                             <div className='flex items-center'>
                                                 <p className='font-medium w-[6rem]'>Start Date</p>
                                                 <Input className="xl:w-[18rem] lg:w-[10rem] my-3 " placeholder="Add value" />
@@ -185,7 +185,7 @@ const Create_Sample = () => {
                             {ShifflyForm.map((form, index) => (
                                 <div key={form.id} >
                                     <div className='flex items-center'>
-                                        <div className='grid grid-cols-2  w-[53rem]'>
+                                        <div className='grid grid-cols-2 w-[40rem]'>
                                             <div className='flex items-center'>
                                                 <p className='font-medium w-[8rem] '>Shiffly number</p>
                                                 <Input className="xl:w-[18rem] lg:w-[10rem] my-3 " placeholder="Add value" />
