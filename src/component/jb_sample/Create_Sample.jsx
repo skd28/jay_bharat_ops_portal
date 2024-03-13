@@ -66,7 +66,7 @@ const Create_Sample = () => {
 
     return (
         <>
-            <div className='mt-[4.5rem] ml-[5rem]  '>
+            <div className='mt-[4rem] ml-[3rem]   '>
 
                 <div className='flex items-center'>
                     <Link to='/jb_admin/sample'  >  <FaAngleLeft className='text-[1rem] border-2  w-[2rem] h-[2rem] rounded-full' /></Link>
@@ -78,21 +78,21 @@ const Create_Sample = () => {
                 <div className='flex gap-5 mt-20 px-7'>
                     <div className='  border py-10 px-7 rounded-lg h-[60rem] '>
                         <p>Upload the sample image</p>
-                        <img className='rounded-lg py-5 w-[20rem] ' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-4UrNveMngjY3HyNG5922XI7nzIudTijew&usqp=CAU' alt='...' />
-                        <div className="border-2 border-black  rounded-lg border-dotted xl:w-[16.5rem] lg:w-[11.5rem] h-[8rem] flex items-center justify-center">
+                        <img className='rounded-lg py-5  ' src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQI-4UrNveMngjY3HyNG5922XI7nzIudTijew&usqp=CAU' alt='...' />
+                        <div className="border-2 border-black  rounded-lg border-dotted  h-[8rem] flex items-center justify-center">
                             Upload sample image
                         </div>
                         <div className='mt-5'>
                             <p className=''>Sample Number</p>
-                            <Input className="xl:w-[16.5rem] lg:w-[11.5rem] my-3 " placeholder=" Enter sample no" />
+                            <Input className=" my-3 " placeholder=" Enter sample no" />
                             <p className=''>Client Code</p>
-                            <Input className="xl:w-[16.5rem] lg:w-[11.5rem] my-3 " placeholder="Eg:SW_CL_001" />
+                            <Input className=" my-3 " placeholder="Eg:SW_CL_001" />
                             <p className=''>Start date of Sampling</p>
-                            <Input className="wxl:w-[16.5rem] lg:w-[11.5rem] my-3 " placeholder="Eg:2024-12-23" />
+                            <Input className=" my-3 " placeholder="Eg:2024-12-23" />
                             <p className=''>End date of Sampling</p>
-                            <Input className="xl:w-[16.5rem] lg:w-[11.5rem] my-3 " placeholder="Eg:2023-12-23" />
+                            <Input className=" my-3 " placeholder="Eg:2023-12-23" />
                             <p className=''>Date of Dispatch</p>
-                            <Input className="xl:w-[16.5rem] lg:w-[11.5rem] my-3 " placeholder="Eg:2024-12-30" />
+                            <Input className=" my-3 " placeholder="Eg:2024-12-30" />
                         </div>
 
                     </div>
