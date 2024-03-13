@@ -97,20 +97,20 @@ const Create_Sample = () => {
                         </div>
                         <div className='mt-5'>
                             <p className='font-inter'>Sample Number</p>
-                            <Input className=" my-3 " placeholder=" Enter sample no" />
+                            <Input className=" my-3 w-[13rem] " placeholder=" Enter sample no" />
                             <p className='font-inter'>Client Code</p>
-                            <Input className=" my-3 " placeholder="Eg:SW_CL_001" />
+                            <Input className=" my-3 w-[13rem] " placeholder="Eg:SW_CL_001" />
                             <p className='font-inter'>Start date of Sampling</p>
-                            <Popover>
+                            <Popover  >
                                 <PopoverTrigger asChild>
-                                    <Button
+                                    <Button 
                                         variant={"outline"}
                                         className={cn(
-                                            "w-[280px] justify-start text-left font-normal",
+                                            "w-[13rem] justify-start text-left font-normal ",
                                             !date && "text-muted-foreground"
                                         )}
                                     >
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        <CalendarIcon className="mr-2 h-4 w-2" />
                                         {date ? format(date, "PPP") : <span>Pick a date</span>}
                                     </Button>
                                 </PopoverTrigger>
@@ -130,7 +130,7 @@ const Create_Sample = () => {
                                     <Button
                                         variant={"outline"}
                                         className={cn(
-                                            "w-[280px] justify-start text-left font-normal",
+                                            "w-[13rem] justify-start text-left font-normal",
                                             !date && "text-muted-foreground"
                                         )}
                                     >
@@ -153,7 +153,7 @@ const Create_Sample = () => {
                                     <Button
                                         variant={"outline"}
                                         className={cn(
-                                            "w-[280px] justify-start text-left font-normal",
+                                            "w-[13rem] justify-start text-left font-normal",
                                             !date && "text-muted-foreground"
                                         )}
                                     >
