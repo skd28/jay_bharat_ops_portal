@@ -100,7 +100,7 @@ const Create_Sample = () => {
                             <Input className=" my-3 w-[13rem] " placeholder=" Enter sample no" />
                             <p className='font-inter'>Client Code</p>
                             <Input className=" my-3 w-[13rem] " placeholder="Eg:SW_CL_001" />
-                            <p className='font-inter'>Start date of Sampling</p>
+                            <p className='font-inter mb-3'>Start date of Sampling</p>
                             <Popover  >
                                 <PopoverTrigger asChild>
                                     <Button 
@@ -124,7 +124,7 @@ const Create_Sample = () => {
                                 </PopoverContent>
                             </Popover>
 
-                            <p className='font-inter'>End date of Sampling</p>
+                            <p className='font-inter my-3'>End date of Sampling</p>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -147,7 +147,7 @@ const Create_Sample = () => {
                                     />
                                 </PopoverContent>
                             </Popover>
-                            <p className='font-inter'>Date of Dispatch</p>
+                            <p className='font-inter  my-3'>Date of Dispatch</p>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
