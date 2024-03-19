@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
+import Navbar from '../navbar'
 
 
 
@@ -82,9 +83,9 @@ const Client_Management = () => {
 
     return (
         <div>
-            <div className='flex-grow'>
+            <div className='flex'>
 
-
+                <Navbar />
                 <div className='ml-12 '>
                     <h1 className='font-medium text-[1.5rem] mt-16 font-inter '>Client Management</h1>
                     <p className='py-1 font-inter'>Manage, onbard and set activation status for the client</p>
@@ -115,17 +116,17 @@ const Client_Management = () => {
                                                 <AlertDialog>
                                                     <AlertDialogTrigger className=''>
                                                         <Button className="  xl:w-[5rem] lg:w-[4em] h-[2rem] font-inter bg-gray-700 text-white rounded-lg ml-4"> Edit</Button>
-                                                       </AlertDialogTrigger>
+                                                    </AlertDialogTrigger>
                                                     <AlertDialogContent>
                                                         <AlertDialogHeader>
                                                             <AlertDialogTitle>Edit the Client</AlertDialogTitle>
                                                             <AlertDialogDescription>
                                                                 <p className=' font-inter text-[1rem] text-black font-bold'>Client Name</p>
-                                                                <Input value={item.client_name}/>
+                                                                <Input value={item.client_name} />
                                                                 <p className=' font-inter text-[1rem] text-black mt-3 font-bold'>Client Ref No</p>
                                                                 <Input value={item.client_ref} />
                                                                 <p className='  font-inter text-[1rem] text-black mt-3 font-bold'>Mobile Number</p>
-                                                                <Input value={item.mobile_no}/>
+                                                                <Input value={item.mobile_no} />
                                                                 <p className=' font-inter text-[1rem] text-black mt-3 font-bold'>Other info</p>
                                                                 <Input value={item.other_info} />
 
@@ -141,13 +142,13 @@ const Client_Management = () => {
 
                                                 <AlertDialog >
                                                     <AlertDialogTrigger className='' >
-                                                        <Button   className=" xl:w-[5rem] lg:w-[4rem]  h-[2rem] font-inter bg-red-700 text-white rounded-lg ml-4">Delete</Button>
+                                                        <Button className=" xl:w-[5rem] lg:w-[4rem]  h-[2rem] font-inter bg-red-700 text-white rounded-lg ml-4">Delete</Button>
                                                     </AlertDialogTrigger>
                                                     <AlertDialogContent>
                                                         <AlertDialogHeader>
                                                             <AlertDialogTitle>Delete content: Are you sure to deactivate client? Data related to client will persist but will not be able to use it henceforth.</AlertDialogTitle>
                                                             <AlertDialogDescription>
-                                                                
+
                                                             </AlertDialogDescription>
                                                         </AlertDialogHeader>
                                                         <AlertDialogFooter>
@@ -194,7 +195,7 @@ const Client_Management = () => {
                                             <PaginationLink href="#">6</PaginationLink>
                                         </PaginationItem>
                                         <PaginationItem>
-                                            
+
                                         </PaginationItem>
                                         <PaginationItem>
                                             <PaginationNext href="#" />

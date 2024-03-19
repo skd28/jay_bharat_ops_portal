@@ -3,12 +3,17 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CiFilter } from "react-icons/ci";
 import { Link } from 'react-router-dom';
+import Navbar from '../navbar';
 
 
 
 
 const Sample = () => {
   return (
+    <>
+    <div className='flex'>
+
+   <Navbar/>
     <div className='  mt-[4.5rem] ml-[5rem]  '>
 
       <div className=' flex  justify-between  '>
@@ -42,6 +47,8 @@ const Sample = () => {
           <Button className="bg-gray-800 w-[15rem] mx-[1.6rem]  ">Manage</Button>
       </div>
     </div>
+    </div>
+    </>
   )
 }
 

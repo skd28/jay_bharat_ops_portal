@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Input } from "@/components/ui/input";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import Navbar from '../navbar';
 
 
 
@@ -38,7 +39,8 @@ const Create = () => {
     };
 
     return (
-        <div>
+        <div >  
+             
             <div className='border-2 mx-7 rounded xl:w-[30rem] lg:w-[22rem] '>
                 <h1 className='my-3 mt-6 ml-6 font-inter'>Onboard a new client</h1>
                 {showAlert && (
