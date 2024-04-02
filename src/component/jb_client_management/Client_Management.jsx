@@ -168,41 +168,7 @@ const Client_Management = () => {
 
 
 
-                            {/* Paginations */}
-                            <div className='mt-8'>
-
-                                <Pagination>
-                                    <PaginationContent>
-                                        <PaginationItem>
-                                            <PaginationPrevious href="#" />
-                                        </PaginationItem>
-                                        <PaginationItem className="border rounded-full">
-                                            <PaginationLink href="#">1</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem className="border rounded-full">
-                                            <PaginationLink href="#">2</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem className="border rounded-full">
-                                            <PaginationLink href="#">3</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem className="border rounded-full">
-                                            <PaginationLink href="#">4</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem className="border rounded-full">
-                                            <PaginationLink href="#">5</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem className="border rounded-full">
-                                            <PaginationLink href="#">6</PaginationLink>
-                                        </PaginationItem>
-                                        <PaginationItem>
-
-                                        </PaginationItem>
-                                        <PaginationItem>
-                                            <PaginationNext href="#" />
-                                        </PaginationItem>
-                                    </PaginationContent>
-                                </Pagination>
-                            </div>
+                          
 
 
                         </div>
