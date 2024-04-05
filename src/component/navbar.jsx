@@ -6,7 +6,7 @@ const Navbar = () => {
   return (
     <div className="flex flex-col bg-black  m-4 rounded-lg h-screen ">
       <div>
-      <img  src={image} className=' w-[5rem] h-[5rem] m-5   rounded-full' alt='...'/>
+      <img  src={image} className=' w-[7rem] h-[7rem] m-2   rounded-full' alt='...'/>
         {/* <div className='rounded-full xl:w-[7rem] xl:h-[7rem] lg:w-[8rem] lg:h-[8rem]  md:w-[7rem] md:h-[7rem] px-5 border bg-white mx-5 text-center my-10 '></div> */}
         <div className='my-10'>
 
