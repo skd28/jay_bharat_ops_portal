@@ -4,9 +4,9 @@ import image from "../assets/jay_bhart_logo.jpeg"
 
 const Navbar = () => {
   return (
-    <div className="flex flex-col bg-black  m-6 rounded-lg h-screen ">
+    <div className="flex flex-col bg-black  p-3 m-4 rounded-lg h-screen ">
       <div>
-      <img  src={image} className=' w-[5rem] h-[5rem] mx-auto mt-2   rounded-full' alt='...'/>
+      <img  src={image} className=' w-[5rem] h-[5rem] m-auto   rounded-full' alt='...'/>
         {/* <div className='rounded-full xl:w-[7rem] xl:h-[7rem] lg:w-[8rem] lg:h-[8rem]  md:w-[7rem] md:h-[7rem] px-5 border bg-white mx-5 text-center my-10 '></div> */}
         <div className='my-10'>
 
