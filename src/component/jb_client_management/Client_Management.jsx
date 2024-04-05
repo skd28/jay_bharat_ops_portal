@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Table,
     TableBody,
@@ -9,16 +9,6 @@ import {
     TableRow,
 } from "@/components/ui/table"
 
-
-import {
-    Pagination,
-    PaginationContent,
-    PaginationEllipsis,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious,
-} from "@/components/ui/pagination"
 import Create from './Create'
 
 import {
@@ -35,51 +25,36 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import Navbar from '../navbar'
+import axios from 'axios';
 
 
 
-
-const data = [
-    {
-        id: 1,
-        client_name: "Jay Bhart1",
-        client_ref: "SW_CL_001",
-        mobile_no: 123456789,
-        other_info: "XYZ"
-    },
-    {
-        id: 2,
-        client_name: "Jay Bhart2",
-        client_ref: "SW_CL_002",
-        mobile_no: 123456789,
-        other_info: "XYZ"
-    },
-    {
-        id: 3,
-        client_name: "Jay Bhart3",
-        client_ref: "SW_CL_003",
-        mobile_no: 123456789,
-        other_info: "XYZ"
-    },
-    {
-        id: 4,
-        client_name: "Jay Bhart4",
-        client_ref: "SW_CL_004",
-        mobile_no: 123456789,
-        other_info: "XYZ"
-    },
-    {
-        id: 5,
-        client_name: "Jay Bhart5",
-        client_ref: "SW_CL_005",
-        mobile_no: 123456789,
-        other_info: "XYZ"
-    }
-]
 
 const Client_Management = () => {
 
+    const [clientData, setClientData] = useState([]);
 
+    useEffect(() => {
+        const fetchClients = async () => {
+            try {
+                const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+                const response = await axios.get(
+                    "https://jaybharat-api.vercel.app/jb/client/clients",
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }
+                );
+                setClientData(response.data); // Assuming the response is an array of client data
+            } catch (error) {
+                console.error('Error fetching clients:', error);
+            }
+        };
+    
+        fetchClients();
+    }, []);
+    
 
     return (
         <div>
@@ -104,12 +79,11 @@ const Client_Management = () => {
                                         <TableHead className=" xl:w-[18rem] lg:w-[20rem] border-2 pl-5 text-[1rem] font-inter ">Actions</TableHead>
                                     </TableRow>
                                 </TableHeader>
-
-                                {data.map((item) => (
+                                {clientData.data && clientData.data.map((item) => (
                                     <TableBody key={item.id} className="border-2">
                                         <TableRow className="h-[3rem] ">
                                             <TableCell className="font-inter pl-4">{item.client_name}</TableCell>
-                                            <TableCell className="border pl-4 font-inter  ">{item.client_ref}</TableCell>
+                                            <TableCell className="border pl-4 font-inter  ">{item.client_ref_no}</TableCell>
 
                                             <TableCell className="flex ml-4 xl:w-[18rem] lg:w-[11rem]">
 
@@ -124,11 +98,11 @@ const Client_Management = () => {
                                                                 <p className=' font-inter text-[1rem] text-black font-bold'>Client Name</p>
                                                                 <Input value={item.client_name} />
                                                                 <p className=' font-inter text-[1rem] text-black mt-3 font-bold'>Client Ref No</p>
-                                                                <Input value={item.client_ref} />
+                                                                <Input value={item.client_ref_no} />
                                                                 <p className='  font-inter text-[1rem] text-black mt-3 font-bold'>Mobile Number</p>
-                                                                <Input value={item.mobile_no} />
+                                                                <Input value={item.client_mobile_number} />
                                                                 <p className=' font-inter text-[1rem] text-black mt-3 font-bold'>Other info</p>
-                                                                <Input value={item.other_info} />
+                                                                <Input value={item.client_description_info} />
 
                                                             </AlertDialogDescription>
                                                         </AlertDialogHeader>
@@ -164,12 +138,6 @@ const Client_Management = () => {
 
 
                             </Table>
-
-
-
-
-                          
-
 
                         </div>
                         <div>

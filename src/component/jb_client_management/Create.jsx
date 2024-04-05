@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { Input } from "@/components/ui/input";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+import axios from 'axios';
 // import Navbar from '../navbar';
 
 
@@ -13,29 +14,38 @@ const Create = () => {
 
 
     const initialClientData = {
-        clientName: '',
-        clientRefNo: '',
-        mobileNumber: '',
-        otherInfo: ''
+        client_name: '',
+        client_ref_no: '',
+        client_mobile_number: '',
+        client_description_info: ''
     };
     const [clientData, setClientData] = useState(initialClientData);
     const [showAlert, setShowAlert] = useState(false);
 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setClientData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+        setClientData({ ...clientData, [e.target.name]: e.target.value })
+        // console.log(clientData);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // console.log("Client Data:", clientData);
-        setShowAlert(true);
-
-        setClientData(initialClientData);
+        try {
+            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+            const response = await axios.post(
+                "https://jaybharat-api.vercel.app/jb/client/create_client",
+                clientData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            // console.log(response.data);
+            setShowAlert(true);
+        } catch (error) {
+            console.log("Error Signing up");
+        }
     };
 
     return (
@@ -56,29 +66,29 @@ const Create = () => {
                     <p className='font-medium ml-6 font-inter'>Client Name</p>
                     <Input
                         className="xl:w-[25rem] lg:w-[19rem] ml-6"
-                        name="clientName"
-                        value={clientData.clientName}
+                        name="client_name"
+                        value={clientData.client_name}
                         onChange={handleChange}
                     />
                     <p className='font-medium ml-6 mt-3 font-inter'>Client Ref No</p>
                     <Input
                         className="xl:w-[25rem] lg:w-[19rem] ml-6"
-                        name="clientRefNo"
-                        value={clientData.clientRefNo}
+                        name="client_ref_no"
+                        value={clientData.client_ref_no}
                         onChange={handleChange}
                     />
                     <p className='font-medium ml-6 mt-3 font-inter'>Mobile Number</p>
                     <Input
                         className="xl:w-[25rem] lg:w-[19rem] ml-6"
-                        name="mobileNumber"
-                        value={clientData.mobileNumber}
+                        name="client_mobile_number"
+                        value={clientData.client_mobile_number}
                         onChange={handleChange}
                     />
                     <p className='font-medium ml-6 mt-3 font-inter'>Other info</p>
                     <Input
                         className="xl:w-[25rem] lg:w-[19rem] ml-6"
-                        name="otherInfo"
-                        value={clientData.otherInfo}
+                        name="client_description_info"
+                        value={clientData.client_description_info}
                         onChange={handleChange}
                     />
 
