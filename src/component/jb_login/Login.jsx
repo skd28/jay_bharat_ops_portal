@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react'
 
 import {useNavigate} from "react-router-dom"
+import image from "../../assets/jay_bhart_logo.jpeg";
 
 
 
@@ -45,14 +46,17 @@ const Login = () => {
 
   return (
     <>
-      <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-        <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8  ">
+       
 
-          <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Sign in to your account</h2>
-        </div>
+        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm border-2 shadow-xl  ">
 
-        <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form class="space-y-6" onSubmit={handleSummit} >
+
+
+             <img  src={image} className=' w-[6rem] h-[6rem] m-2   rounded-full' alt='...'/>
+
+         <div className='m-8'>
+         <form class="space-y-6" onSubmit={handleSummit} >
             <div>
               <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
               <div class="mt-2">
@@ -73,12 +77,13 @@ const Login = () => {
             </div>
 
             <div>
-              <button type="submit" class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+              <button type="submit" class="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                      Login
                 {/* <Link to='/jb_admin'>Login</Link> */}
               </button>
             </div>
           </form>
+         </div>
 
 
         </div>
