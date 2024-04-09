@@ -26,18 +26,24 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button"
 import Navbar from '../navbar'
 import axios from 'axios';
-
+import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom"
 
 
 
 const Client_Management = () => {
 
     const [clientData, setClientData] = useState([]);
-
+    const naviagte = useNavigate();
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+                const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+                const token = Cookies.get('token');
+                if (token !== token_1) {
+                    naviagte("/");
+                }
+                console.log("Cokkies Token :", token);
                 const response = await axios.get(
                     "https://jaybharat-api.vercel.app/jb/client/clients",
                     {
@@ -51,10 +57,10 @@ const Client_Management = () => {
                 console.error('Error fetching clients:', error);
             }
         };
-    
+
         fetchClients();
     }, []);
-    
+
 
     return (
         <div>

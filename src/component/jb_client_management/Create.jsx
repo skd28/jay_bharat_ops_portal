@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import axios from 'axios';
 // import Navbar from '../navbar';
+import Cookies from 'js-cookie';
+import {useNavigate} from "react-router-dom"
 
 
 
@@ -21,6 +23,7 @@ const Create = () => {
     };
     const [clientData, setClientData] = useState(initialClientData);
     const [showAlert, setShowAlert] = useState(false);
+    const naviagte = useNavigate();
 
     const handleChange = (e) => {
         setClientData({ ...clientData, [e.target.name]: e.target.value })
@@ -31,7 +34,12 @@ const Create = () => {
         e.preventDefault();
 
         try {
-            const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+           const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+          const token = Cookies.get('token');
+          if(token!==token_1)
+          {
+            naviagte("/");
+          }
             const response = await axios.post(
                 "https://jaybharat-api.vercel.app/jb/client/create_client",
                 clientData,

@@ -27,7 +27,19 @@ const Create_Sample = () => {
     const [date, setDate] = React.useState();
 
 
-    const [fabricForms, setFabricForms] = useState([{ id: 1 }]);
+    const [fabricForms, setFabricForms] = useState([{
+        id: 1,
+
+    }]
+    );
+    const[dataFab,setDataFab] = useState({
+        cost_fabric:"",
+        quality_fabirc:""
+    })
+    const handleChange = (e) => {
+        setDataFab({ ...dataFab, [e.target.name]: [e.target.value] });
+        console.log("Set Form Data :", dataFab);
+    }
     const [EmbroideryForm, setEmbroideryForm] = useState([{ id: 1 }]);
     const [ShifflyForm, setShifflyForm] = useState([{ id: 1 }]);
     const [ChemicalLancingForm, setChemicalLancingForm] = useState([{ id: 1 }]);
@@ -197,11 +209,14 @@ const Create_Sample = () => {
                                             <div className='grid grid-cols-2 w-[40rem] '>
                                                 <div className='flex items-center'>
                                                     <p className='font-medium w-[9rem]  font-inter'>Select Fabric quality</p>
-                                                    <Input className="xl:w-[18rem] lg:w-[14rem] my-3 mx-3 " placeholder="Add value" />
+                                                    <Input className="xl:w-[18rem] lg:w-[14rem] my-3 mx-3 " placeholder="Add value" 
+                                                        name="qualty_fabric" value={dataFab.quality_fabirc} onChange={handleChange}
+                                                    />
                                                 </div>
                                                 <div className='flex items-center'>
                                                     <p className='font-medium w-[7rem] font-inter '>Cost of  Fabrics</p>
-                                                    <Input className="xl:w-[18rem] lg:w-[14rem] my-3 mx-3" placeholder="Add value" />
+                                                    <Input className="xl:w-[18rem] lg:w-[14rem] my-3 mx-3" placeholder="Add value"
+                                                        name="cost_fabric" value={dataFab.cost_fabric} onChange={handleChange} />
                                                 </div>
                                             </div>
                                             {form.id !== 1 && (
