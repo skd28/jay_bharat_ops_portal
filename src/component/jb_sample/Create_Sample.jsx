@@ -399,11 +399,11 @@ const Create_Sample = () => {
                                 <div className='grid grid-cols-2 w-[40rem]'>
                                     <div className='flex items-center'>
                                         <p className='font-medium   w-[7rem] font-inter '>Enter Stiching count</p>
-                                        <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2" placeholder="Add value" type="text"  value={payload. sampling_stitching_count || ''}   onChange={e => console.log('sampling_cost', e.target.value)}  />
+                                        <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2" placeholder="Add value" type="text"  value={payload. sampling_stitching_count || ''}   onChange={e => handleInputChange('sampling_stitching_count', e.target.value)}  />
                                     </div>
                                     <div className='flex items-center'>
                                         <p className='font-medium   w-[7rem]  font-inter'>Cost of Stiching</p>
-                                        <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value"  value={payload. sampling_stitching_cost || ''}   onChange={e => handleInputChange('sampling_cost', e.target.value)} />
+                                        <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value" type="text"  value={payload. sampling_stitching_cost || ''}   onChange={e => handleInputChange('sampling_stitching_cost', e.target.value)} />
                                     </div>
                                 </div>
                                 <div className='grid grid-cols-2 w-[40rem]'>
