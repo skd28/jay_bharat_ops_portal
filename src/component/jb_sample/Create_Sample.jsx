@@ -20,7 +20,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 import Navbar from '../navbar';
-import Image from './Image';
+
 import { IoCloudUploadOutline } from "react-icons/io5";
 
 

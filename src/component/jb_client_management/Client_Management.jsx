@@ -64,7 +64,7 @@ const Client_Management = () => {
 
     return (
         <div>
-            <div className='flex gap-10'>
+            <div className='flex '>
 
                 <Navbar />
                 <div className='ml-12 '>
