@@ -1,14 +1,52 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CiFilter } from "react-icons/ci";
 import { Link } from 'react-router-dom';
 import Navbar from '../navbar';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { useNavigate } from "react-router-dom"
+
 
 
 
 
 const Sample = () => {
+
+  const [data, setData] = useState([]);
+  const naviagte = useNavigate();
+
+  useEffect(() => {
+      const fetchClients = async () => {
+          try {
+             // const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+              const token = Cookies.get('token');
+             // console.log("Cokiess for Client  :",token);
+              if (!token) {
+                  naviagte("/");
+              }
+            //  console.log("Cokkies Token :", token);
+              const response = await axios.get(
+                  "https://jaybharat-api.vercel.app/jb/sampling/samples",
+                  {
+                      headers: {
+                          Authorization: `Bearer ${token}`
+                      }
+                  }
+              );
+              console.log("Response Data :",response.data);
+              setData(response.data); // Assuming the response is an array of client data
+          } catch (error) {
+              console.error('Error fetching clients:', error);
+          }
+      };
+
+      fetchClients();
+  }, []);
+
+
+
   return (
     <>
     <div className='flex'>
@@ -40,11 +78,15 @@ const Sample = () => {
         </Button>
       </div>
 
-      <div className='mt-[3rem] border-2 w-[18rem] rounded-md h-[22rem] '>
-           <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3MlyrYynFO-urpfPIya2u4Wq7-pg_7wRuaw&usqp=CAU" className='mt-[2rem] px-[2rem] w-[18rem] h-[10rem] rounded-md' alt='...'/>
-          <h2 className=' px-[2rem]  font-semibold text-[1.2rem] mt-[0.5rem] '>Bharat Embroidery</h2>
-          <p className=' px-[2rem]  text-center my-[0.7rem]'>REF_001</p>
-          <Button className="bg-gray-800 w-[15rem] mx-[1.6rem]  ">Manage</Button>
+      <div className='mt-[3rem] rounded-md  grid grid-cols-3 my-5  '>
+           {data.map((item,indx)=>(
+            <div key={item.id} className=' border-4  text-center items-center justify-center py-4 shadow-xl '>
+              <img src={item.sampling_image} className=' w-[14rem] h-[12rem] mx-auto ' alt='...'/>
+            {/* <h2 className=' px-[2rem]  font-semibold text-[1.2rem] mt-[0.5rem] '>Bharat Embroidery</h2>
+            <p className=' px-[2rem]  text-center my-[0.7rem]'>REF_001</p> */}
+            <Button className="bg-gray-800  mx-[1.6rem] my-4  ">Manage</Button>
+              </div>
+           ))}
       </div>
     </div>
     </div>

@@ -976,3 +976,12 @@ export default Create_Sample
 //         })
 //     }));
 // };
+
+
+
+{/* <div className='mt-[3rem]w-[18rem] rounded-md   grid grid-cols-4  '>
+{data.map((item,indx)=>(
+  <img src={item.sampling_image} alt='....' className=' w-[12rem] h-[12rem]  m-5 ' />
+  <h1></h1>
+))}
+</div> */}
