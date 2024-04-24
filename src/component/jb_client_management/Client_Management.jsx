@@ -38,12 +38,13 @@ const Client_Management = () => {
     useEffect(() => {
         const fetchClients = async () => {
             try {
-                const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+               // const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
                 const token = Cookies.get('token');
-                if (token !== token_1) {
+               // console.log("Cokiess for Client  :",token);
+                if (!token) {
                     naviagte("/");
                 }
-                console.log("Cokkies Token :", token);
+              //  console.log("Cokkies Token :", token);
                 const response = await axios.get(
                     "https://jaybharat-api.vercel.app/jb/client/clients",
                     {
@@ -52,6 +53,7 @@ const Client_Management = () => {
                         }
                     }
                 );
+                console.log("Response Data :",response.data);
                 setClientData(response.data); // Assuming the response is an array of client data
             } catch (error) {
                 console.error('Error fetching clients:', error);

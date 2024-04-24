@@ -22,6 +22,9 @@ import {
 import Navbar from '../navbar';
 
 import { IoCloudUploadOutline } from "react-icons/io5";
+import Cookies from 'js-cookie';
+import {useNavigate} from "react-router-dom"
+import axios from 'axios';
 
 
 
@@ -47,6 +50,34 @@ const Create_Sample = () => {
         sampling_created_by: 5,
         sampling_updated_by: 5
     });
+    const naviagte = useNavigate();
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+           //const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+          const token = Cookies.get('token');
+          console.log("Cokiess  :",token);
+          if(!token)
+          {
+            naviagte("/");
+          }
+            const response = await axios.post(
+                "https://e9e3-103-166-189-130.ngrok-free.app/jb/sampling/create_sample",
+                payload,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+             console.log(response);
+            // setShowAlert(true);
+        } catch (error) {
+            console.log("Error in open up");
+        }
+    };
 
     const setPayloadDate = (date, key) => {
         date = format(date, 'yyyy-MM-dd')
@@ -301,7 +332,7 @@ const Create_Sample = () => {
 
                                 <div className='flex items-center'>
                                     <p className=' font-medium w-[7rem] font-inter '>Cost of the Sample</p>
-                                    <Input className="xl:w-[15rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2  " placeholder="Enter in Rs." type="text" value={payload.sampling_cost || ''} onChange={e => handleInputChange('sampling_cost', e.target.value)} />
+                                    <Input className="xl:w-[15rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2  " placeholder="Enter in Rs." type="number"  value={payload.sampling_cost || ''} onChange={e => handleInputChange('sampling_cost', parseFloat(e.target.value))} />
                                 </div>
 
                                 <h1 className='underline font-semibold text-[1.2rem] my-4 font-inter'>Fabrics</h1>
@@ -626,11 +657,11 @@ const Create_Sample = () => {
                                 <div className='grid grid-cols-2 w-[40rem]'>
                                     <div className='flex items-center'>
                                         <p className='font-medium   w-[7rem] font-inter '>Enter Stiching count</p>
-                                        <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2" placeholder="Add value" type="text" value={payload.sampling_stitching_count || ''} onChange={e => handleInputChange('sampling_stitching_count', e.target.value)} />
+                                        <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2" placeholder="Add value" type="number" value={payload.sampling_stitching_count || ''} onChange={e => handleInputChange('sampling_stitching_count', parseInt(e.target.value))} />
                                     </div>
                                     <div className='flex items-center'>
                                         <p className='font-medium   w-[7rem]  font-inter'>Cost of Stiching</p>
-                                        <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value" type="text" value={payload.sampling_stitching_cost || ''} onChange={e => handleInputChange('sampling_stitching_cost', e.target.value)} />
+                                        <Input className="xl:w-[18rem] lg:w-[14rem] my-3 xl:mx-7 lg:mx-2 " placeholder="Add value" type="number"  value={payload.sampling_stitching_cost || ''} onChange={e => handleInputChange('sampling_stitching_cost', parseFloat(e.target.value))} />
                                     </div>
                                 </div>
                                 <div className='grid grid-cols-2 w-[40rem]'>
@@ -700,7 +731,7 @@ const Create_Sample = () => {
                             </div>
 
                             <div className='text-right my-3 mb-7'>
-                                <Button className="bg-black font-inter w-[17rem]">Finalize and Summit</Button>
+                                <Button    onClick={handleSubmit}   className="bg-black font-inter w-[17rem]">Finalize and Summit</Button>
                             </div>
                         </div>
 

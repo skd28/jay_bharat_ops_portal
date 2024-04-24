@@ -34,9 +34,9 @@ const Create = () => {
         e.preventDefault();
 
         try {
-           const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
+          // const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
           const token = Cookies.get('token');
-          if(token!==token_1)
+          if(!token)
           {
             naviagte("/");
           }
