@@ -1,9 +1,9 @@
 import axios from 'axios';
 import React, { useState } from 'react'
-
 import { useNavigate } from "react-router-dom"
 import image from "../../assets/jay_bhart_logo.jpeg";
 import Cookies from 'js-cookie';
+import Loader from '../loader/Loader';
 
 
 
@@ -15,6 +15,8 @@ const Login = () => {
     username: "",
     password: ""
   })
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null); 
 
   const naviagte = useNavigate();
 
@@ -22,39 +24,33 @@ const Login = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+  
 
   const handleSummit = async (e) => {
     e.preventDefault();
+    setLoading(true); // Start loading when form is submitted
 
     try {
-      // const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
       const response = await axios.post(
         "https://jaybharat-api.vercel.app/jb/auth/login",
         data
       );
-      // Log token value
-      // console.log(response);
-      // console.log("Token:", response.data.data.token);
 
-      // Set token in cookies
       Cookies.set('token', response.data.data.token);
-
-      // Log the token from cookies
-      // console.log("Token from cookies:", Cookies.get('token'));
-
+      setLoading(false); // Stop loading after successful login
       naviagte("/jb_admin");
-
     } catch (error) {
-      console.log("Login Failed", error);
+      setError("Login failed. Please check your username and password.");
+      setLoading(false); // Stop loading if there's an error
     }
-  }
+  };
 
 
   return (
     <>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8  ">
 
-
+          
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm border-2 shadow-xl  ">
 
 
@@ -83,15 +79,18 @@ const Login = () => {
               </div>
 
               <div>
-                <button type="submit" className="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                <button type="submit" className="flex w-full justify-center rounded-md gap-x-5 bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
                   Login
+                  {loading &&  <Loader />}
                   {/* <Link to='/jb_admin'>Login</Link> */}
                 </button>
               </div>
             </form>
+
+            {/* {error && <p className="text-red-500">{error}</p>} Display error message if login fails */}
           </div>
 
-
+          {/* <Loader />  */}
         </div>
       </div>
       
