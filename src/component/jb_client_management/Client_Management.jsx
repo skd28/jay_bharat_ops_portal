@@ -28,6 +28,8 @@ import Navbar from "../navbar";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import "./client.css";
+import Icons from "../Icons";
 
 const Client_Management = () => {
   const [clientData, setClientData] = useState([]);
@@ -35,7 +37,9 @@ const Client_Management = () => {
   const [data, setData] = useState();
 
   const [openModel, setOpenModel] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [openDeleteModel, setOpenDeleteModel] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
 
   const [deleteRef, setDeleteRef] = useState(0);
 
@@ -57,95 +61,131 @@ const Client_Management = () => {
     setOpenDeleteModel(true);
   };
 
-  const handleChange = (event, key) => {
-    const newValue = event.target.value;
-    setOpenEditPayload({ ...openEditPayload, [key]: newValue });
+  const handleChange = (e) => {
+    setOpenEditPayload({ ...openEditPayload, [e.target.name]: e.target.value });
   };
 
   const naviagte = useNavigate();
 
-  const handleEdit = async () => {
-    try {
-      const token = Cookies.get("token");
-      if (!token) {
-        naviagte("/");
-      }
-      const response = await axios.put(
-        `https://jaybharat-api.vercel.app/jb/client/edit/${openEditPayload.id}`,
-        openEditPayload, // Sending the updated payload as the request body
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      console.log("Response Data:", response.data);
-      if (response.data.status === 200) {
-        window.location.reload();
-      }
-      // Handle any response data or UI updates after successful edit
-    } catch (error) {
-      console.error("Error editing client:", error);
+  const getClients = () => {
+    const token = Cookies.get("token");
+    // console.log("Cokiess for Client  :",token);
+    if (!token) {
+      naviagte("/");
     }
+
+    axios
+      .get("https://jaybharat-api.vercel.app/jb/client/clients", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("Response Data :", response.data);
+        setClientData(response.data); // Assuming the response is an array of client data
+      })
+      .catch((error) => {
+        console.error("Error fetching clients:", error);
+      });
   };
 
-
-  
-  const handleDelete = async () => {
-    try {
-      const token = Cookies.get("token");
-      if (!token) {
-        naviagte("/");
-      }
-      const response = await axios.delete(
-        `https://jaybharat-api.vercel.app/jb/client/delete/${deleteRef}`,
-         // Sending the updated payload as the request body
+  const handleEdit = async () => {
+    const token = Cookies.get("token");
+    if (!token) {
+      naviagte("/");
+    }
+    setLoading(true);
+    axios
+      .put(
+        `https://jaybharat-api.vercel.app/jb/client/edit/${openEditPayload.id}`,
+        openEditPayload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      console.log("Response Data:", response.data);
-      if (response.data.status === 200) {
-        window.location.reload();
-      }
-      // Handle any response data or UI updates after successful edit
-    } catch (error) {
-      console.error("Error editing client:", error);
+      )
+      .then((response) => {
+        console.log("Response Data:", response.data);
+        if (response.data.status === 200) {
+          setLoading(false);
+          setClientData([]);
+          getClients();
+        }
+      })
+      .catch((error) => {
+        console.error("Error editing client:", error);
+      });
+  };
+
+  const handleDelete = () => {
+    const token = Cookies.get("token");
+    if (!token) {
+      naviagte("/");
     }
+    setLoading(true);
+    axios
+      .delete(
+        `https://jaybharat-api.vercel.app/jb/client/delete/${deleteRef}`,
+        // Sending the updated payload as the request body
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("Response Data:", response.data);
+        if (response.data.status === 200) {
+          setOpenDeleteModel(false);
+          setLoading(false);
+          setClientData([]);
+          getClients();
+        }
+      })
+      .catch((error) => {
+        console.error("Error editing client:", error);
+      });
+  };
+
+  const handleSubmit = async (e, client_data) => {
+    e.preventDefault();
+    const token = Cookies.get("token");
+    if (!token) {
+      naviagte("/");
+    }
+    setLoading(true);
+    await axios
+      .post(
+        "https://jaybharat-api.vercel.app/jb/client/create_client",
+        client_data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then(() => {
+        setClientData([]);
+        getClients();
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2000);
+        setLoading(false);
+      })
+      .catch(() => {
+        setLoading(false);
+        console.log("Error Signing up");
+      });
   };
 
   useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        // const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
-        const token = Cookies.get("token");
-        // console.log("Cokiess for Client  :",token);
-        if (!token) {
-          naviagte("/");
-        }
-        //  console.log("Cokkies Token :", token);
-        const response = await axios.get(
-          "https://jaybharat-api.vercel.app/jb/client/clients",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("Response Data :", response.data);
-        setClientData(response.data); // Assuming the response is an array of client data
-      } catch (error) {
-        console.error("Error fetching clients:", error);
-      }
-    };
-
-    fetchClients();
+    getClients();
   }, []);
 
   return (
-    <div>
+    <div className="relative">
       <div className="flex ">
         <Navbar />
         <div className="ml-12 ">
@@ -173,32 +213,50 @@ const Client_Management = () => {
                     </TableHead>
                   </TableRow>
                 </TableHeader>
-                {clientData.data &&
-                  clientData.data.map((item) => (
-                    <TableBody key={item.id} className="border-2">
-                      <TableRow className="h-[3rem] ">
-                        <TableCell className="font-inter pl-4">
-                          {item.client_name}
-                        </TableCell>
-                        <TableCell className="border pl-4 font-inter  ">
-                          {item.client_ref_no}
-                        </TableCell>
+                {clientData.data?.length > 0
+                  ? clientData.data.map((item) => (
+                      <TableBody key={item.id} className="border-2">
+                        <TableRow className="h-[3rem] ">
+                          <TableCell className="font-inter pl-4">
+                            {item.client_name}
+                          </TableCell>
+                          <TableCell className="border pl-4 font-inter  ">
+                            {item.client_ref_no}
+                          </TableCell>
 
-                        <TableCell className="flex ml-4 xl:w-[18rem] lg:w-[11rem]">
-                          <Button onClick={() => setEditPayload(item)}>
-                            Edit
-                          </Button>
-                          <Button
-                            variant="destructive"
-                            onClick={() => setDeletePayload(item.id)}
-                            className="ml-3"
-                          >
-                            Delete
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  ))}
+                          <TableCell className="flex ml-4 xl:w-[18rem] lg:w-[11rem]">
+                            <Button onClick={() => setEditPayload(item)}>
+                              Edit
+                            </Button>
+                            <Button
+                              variant="destructive"
+                              onClick={() => setDeletePayload(item.id)}
+                              className="ml-3"
+                            >
+                              Delete
+                            </Button>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    ))
+                  : [1, 2, 3, 4, 5, 6, 7].map((v) => (
+                      <TableBody key={v} className="border-2">
+                        <TableRow className="h-[3rem]">
+                          <TableCell className="font-inter pl-4">
+                            <div className="skeleton-box h-5 w-full"></div>
+                          </TableCell>
+                          <TableCell className="border pl-4 font-inter  ">
+                            <div className="skeleton-box h-5 w-full"></div>
+                          </TableCell>
+
+                          <TableCell className="flex items-center gap-x-4 ml-4 xl:w-[18rem] lg:w-[11rem]">
+                            <div className="skeleton-box h-7 w-1/2"></div>
+
+                            <div className="skeleton-box h-7 w-1/2"></div>
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    ))}
               </Table>
 
               <AlertDialog asChild open={openModel}>
@@ -218,7 +276,8 @@ const Client_Management = () => {
                       <Input
                         type="text"
                         value={openEditPayload.client_name}
-                        onChange={(event) => handleChange(event, "client_name")}
+                        name="client_name"
+                        onChange={handleChange}
                       />
                       <p className=" font-inter text-[1rem] text-black mt-3 font-bold">
                         Client Ref No
@@ -226,9 +285,8 @@ const Client_Management = () => {
                       <Input
                         type="text"
                         value={openEditPayload.client_ref_no}
-                        onChange={(event) =>
-                          handleChange(event, "client_ref_no")
-                        }
+                        name="client_ref_no"
+                        onChange={handleChange}
                       />
                       <p className="  font-inter text-[1rem] text-black mt-3 font-bold">
                         Mobile Number
@@ -236,9 +294,8 @@ const Client_Management = () => {
                       <Input
                         type="text"
                         value={openEditPayload.client_mobile_number}
-                        onChange={(event) =>
-                          handleChange(event, "client_mobile_number")
-                        }
+                        name="client_mobile_number"
+                        onChange={handleChange}
                       />
                       <p className=" font-inter text-[1rem] text-black mt-3 font-bold">
                         Other info
@@ -246,9 +303,8 @@ const Client_Management = () => {
                       <Input
                         type="text"
                         value={openEditPayload.client_description_info}
-                        onChange={(event) =>
-                          handleChange(event, "client_description_info")
-                        }
+                        name="client_description_info"
+                        onChange={handleChange}
                       />
                     </AlertDialogDescription>
                   </AlertDialogHeader>
@@ -266,7 +322,6 @@ const Client_Management = () => {
               </AlertDialog>
 
               <AlertDialog asChild open={openDeleteModel}>
-                
                 <AlertDialogContent>
                   <AlertDialogHeader>
                     <AlertDialogTitle>
@@ -282,19 +337,34 @@ const Client_Management = () => {
                         Cancel
                       </button>
                     </AlertDialogCancel>
-                    <AlertDialogAction className="bg-red-500" onClick={() =>  handleDelete() } >
-                    I understand, Delete client.
+                    <AlertDialogAction
+                      className="bg-red-500 flex gap-x-2"
+                      onClick={() => handleDelete()}
+                    >
+                      I understand, Delete client.
+                      {loading && (
+                        <Icons string="loading" width="25px" height="25px" />
+                      )}
                     </AlertDialogAction>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
             </div>
             <div>
-              <Create />
+              <Create
+                loading={loading}
+                submitFunc={handleSubmit}
+                showAlert={showAlert}
+              />
             </div>
           </div>
         </div>
       </div>
+      {showAlert && 
+        <div className="tooltip-message">
+          Client data saved and onboarded successfully!
+        </div>
+      }
     </div>
   );
 };
