@@ -32,24 +32,28 @@ import "./client.css";
 import Icons from "../Icons";
 
 const Client_Management = () => {
-  const [clientData, setClientData] = useState([]);
+  const naviagte = useNavigate();
 
-  const [data, setData] = useState();
+  const [clientData, setClientData] = useState([]);
 
   const [openModel, setOpenModel] = useState(false);
   const [loading, setLoading] = useState(false);
   const [openDeleteModel, setOpenDeleteModel] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
-  const [deleteRef, setDeleteRef] = useState(0);
+  const [deleteRef, setDeleteRef] = useState(0);  
 
-  // const [openEditPayload ,setOpenEditPayload ] = useState(false);
   const [openEditPayload, setOpenEditPayload] = useState({
     client_name: "",
     client_ref_no: "",
     client_mobile_number: "",
     client_description_info: "",
   });
+
+  useEffect(() => {
+    getClients();
+  }, []);
+
 
   const setEditPayload = (item) => {
     setOpenEditPayload(item);
@@ -61,11 +65,11 @@ const Client_Management = () => {
     setOpenDeleteModel(true);
   };
 
-  const handleChange = (e) => {
+  /* const handleChange = (e) => {
     setOpenEditPayload({ ...openEditPayload, [e.target.name]: e.target.value });
-  };
+  }; */
 
-  const naviagte = useNavigate();
+
 
   const getClients = () => {
     const token = Cookies.get("token");
@@ -89,7 +93,7 @@ const Client_Management = () => {
       });
   };
 
-  const handleEdit = async () => {
+  const handleEdit = async (e, client_data) => {
     const token = Cookies.get("token");
     if (!token) {
       naviagte("/");
@@ -98,7 +102,7 @@ const Client_Management = () => {
     axios
       .put(
         `https://jaybharat-api.vercel.app/jb/client/edit/${openEditPayload.id}`,
-        openEditPayload,
+        client_data,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -148,14 +152,14 @@ const Client_Management = () => {
       });
   };
 
-  const handleSubmit = async (e, client_data) => {
+  const handleSubmit = (e, client_data) => {
     e.preventDefault();
     const token = Cookies.get("token");
     if (!token) {
       naviagte("/");
     }
     setLoading(true);
-    await axios
+    axios
       .post(
         "https://jaybharat-api.vercel.app/jb/client/create_client",
         client_data,
@@ -180,9 +184,6 @@ const Client_Management = () => {
       });
   };
 
-  useEffect(() => {
-    getClients();
-  }, []);
 
   return (
     <div className="relative">
@@ -196,7 +197,7 @@ const Client_Management = () => {
             Manage, onbard and set activation status for the client
           </p>
 
-          <div className="mt-16 flex lg:mb-[10rem] ">
+          <div className="mt-16 flex lg:mb-[10rem] gap-x-7">
             <div>
               {/* Table */}
               <Table>
@@ -268,6 +269,18 @@ const Client_Management = () => {
                 </AlertDialogTrigger> */}
                 <AlertDialogContent>
                   <AlertDialogHeader>
+                    <Create
+                      data={openEditPayload}
+                      component="Edit"
+                      loading={loading}
+                      submitFunc={handleEdit}
+                      showAlert={showAlert}
+                      cancel={setOpenModel}
+                    />
+                  </AlertDialogHeader>
+                </AlertDialogContent>
+                {/* <AlertDialogContent>
+                  <AlertDialogHeader>
                     <AlertDialogTitle>Edit the Client</AlertDialogTitle>
                     <AlertDialogDescription>
                       <p className=" font-inter text-[1rem] text-black font-bold">
@@ -318,7 +331,7 @@ const Client_Management = () => {
                       <button onClick={handleEdit}>Edit New Value</button>
                     </AlertDialogAction>
                   </AlertDialogFooter>
-                </AlertDialogContent>
+                </AlertDialogContent> */}
               </AlertDialog>
 
               <AlertDialog asChild open={openDeleteModel}>
@@ -360,11 +373,11 @@ const Client_Management = () => {
           </div>
         </div>
       </div>
-      {showAlert && 
+      {showAlert && (
         <div className="tooltip-message">
           Client data saved and onboarded successfully!
         </div>
-      }
+      )}
     </div>
   );
 };
