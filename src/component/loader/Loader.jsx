@@ -1,6 +1,7 @@
 import React from 'react';
 import animation from '../loader/animation.svg'
 
+// Loader
 const Loader = () => {
   return (
     <>
