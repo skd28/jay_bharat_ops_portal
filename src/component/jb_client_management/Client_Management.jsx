@@ -40,8 +40,9 @@ const Client_Management = () => {
   const [loading, setLoading] = useState(false);
   const [openDeleteModel, setOpenDeleteModel] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
+  const [editLoading, setEditLoading] = useState(false);
 
-  const [deleteRef, setDeleteRef] = useState(0);  
+  const [deleteRef, setDeleteRef] = useState(0);
 
   const [openEditPayload, setOpenEditPayload] = useState({
     client_name: "",
@@ -53,7 +54,6 @@ const Client_Management = () => {
   useEffect(() => {
     getClients();
   }, []);
-
 
   const setEditPayload = (item) => {
     setOpenEditPayload(item);
@@ -68,8 +68,6 @@ const Client_Management = () => {
   /* const handleChange = (e) => {
     setOpenEditPayload({ ...openEditPayload, [e.target.name]: e.target.value });
   }; */
-
-
 
   const getClients = () => {
     const token = Cookies.get("token");
@@ -86,6 +84,9 @@ const Client_Management = () => {
       })
       .then((response) => {
         console.log("Response Data :", response.data);
+        response.data.data?.sort((a, b) => { //add sorting
+          return a.id - b.id;
+        });
         setClientData(response.data); // Assuming the response is an array of client data
       })
       .catch((error) => {
@@ -93,16 +94,21 @@ const Client_Management = () => {
       });
   };
 
-  const handleEdit = async (e, client_data) => {
+  const handleChange = (e) => {
+    setOpenEditPayload({ ...openEditPayload, [e.target.name]: e.target.value });
+    // console.log(clientData);
+  };
+
+  const handleEdit = async (e) => {
     const token = Cookies.get("token");
     if (!token) {
       naviagte("/");
     }
-    setLoading(true);
+    setEditLoading(true);
     axios
       .put(
         `https://jaybharat-api.vercel.app/jb/client/edit/${openEditPayload.id}`,
-        client_data,
+        openEditPayload,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -112,9 +118,10 @@ const Client_Management = () => {
       .then((response) => {
         console.log("Response Data:", response.data);
         if (response.data.status === 200) {
-          setLoading(false);
+          setOpenModel(false);
           setClientData([]);
           getClients();
+          setEditLoading(false);
         }
       })
       .catch((error) => {
@@ -183,7 +190,6 @@ const Client_Management = () => {
         console.log("Error Signing up");
       });
   };
-
 
   return (
     <div className="relative">
@@ -267,7 +273,7 @@ const Client_Management = () => {
                     Edit
                   </Button>
                 </AlertDialogTrigger> */}
-                <AlertDialogContent>
+                {/* <AlertDialogContent>
                   <AlertDialogHeader>
                     <Create
                       data={openEditPayload}
@@ -278,60 +284,67 @@ const Client_Management = () => {
                       cancel={setOpenModel}
                     />
                   </AlertDialogHeader>
-                </AlertDialogContent>
-                {/* <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Edit the Client</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      <p className=" font-inter text-[1rem] text-black font-bold">
-                        Client Name
-                      </p>
-                      <Input
-                        type="text"
-                        value={openEditPayload.client_name}
-                        name="client_name"
-                        onChange={handleChange}
-                      />
-                      <p className=" font-inter text-[1rem] text-black mt-3 font-bold">
-                        Client Ref No
-                      </p>
-                      <Input
-                        type="text"
-                        value={openEditPayload.client_ref_no}
-                        name="client_ref_no"
-                        onChange={handleChange}
-                      />
-                      <p className="  font-inter text-[1rem] text-black mt-3 font-bold">
-                        Mobile Number
-                      </p>
-                      <Input
-                        type="text"
-                        value={openEditPayload.client_mobile_number}
-                        name="client_mobile_number"
-                        onChange={handleChange}
-                      />
-                      <p className=" font-inter text-[1rem] text-black mt-3 font-bold">
-                        Other info
-                      </p>
-                      <Input
-                        type="text"
-                        value={openEditPayload.client_description_info}
-                        name="client_description_info"
-                        onChange={handleChange}
-                      />
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>
-                      <button onClick={() => setOpenModel(false)}>
-                        Cancel
-                      </button>
-                    </AlertDialogCancel>
-                    <AlertDialogAction>
-                      <button onClick={handleEdit}>Edit New Value</button>
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
                 </AlertDialogContent> */}
+                {
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Edit the Client</AlertDialogTitle>
+                      <div>
+                        <p className=" font-inter text-[1rem] text-black font-bold">
+                          Client Name
+                        </p>
+                        <Input
+                          type="text"
+                          value={openEditPayload.client_name}
+                          name="client_name"
+                          onChange={handleChange}
+                        />
+                        <p className=" font-inter text-[1rem] text-black mt-3 font-bold">
+                          Client Ref No
+                        </p>
+                        <Input
+                          type="text"
+                          value={openEditPayload.client_ref_no}
+                          name="client_ref_no"
+                          onChange={handleChange}
+                        />
+                        <p className="  font-inter text-[1rem] text-black mt-3 font-bold">
+                          Mobile Number
+                        </p>
+                        <Input
+                          type="text"
+                          value={openEditPayload.client_mobile_number}
+                          name="client_mobile_number"
+                          onChange={handleChange}
+                        />
+                        <p className=" font-inter text-[1rem] text-black mt-3 font-bold">
+                          Other info
+                        </p>
+                        <Input
+                          type="text"
+                          value={openEditPayload.client_description_info}
+                          name="client_description_info"
+                          onChange={handleChange}
+                        />
+                      </div>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel onClick={() => setOpenModel(false)}>                        
+                          Cancel
+                      </AlertDialogCancel>
+                      <AlertDialogAction onClick={handleEdit} className="flex gap-x-3">
+                        Edit New Value
+                        {editLoading && (
+                          <Icons
+                            string="loading"
+                            width="25px"
+                            height="25px"
+                          />
+                        )}                        
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                }
               </AlertDialog>
 
               <AlertDialog asChild open={openDeleteModel}>
