@@ -92,74 +92,66 @@ const Create_Sample = () => {
   const [client, setClient] = useState([]);
 
   useEffect(() => {
-    const fetchClient = async () => {
-      try {
-        // const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
-        const token = Cookies.get("token");
-        // console.log("Cokiess for Client  :",token);
-        if (!token) {
-          naviagte("/");
-        }
-        //  console.log("Cokkies Token :", token);
-        const response = await axios.get(
-          "https://jaybharat-api.vercel.app/jb/client/clients",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log("Response Data for Clients :", response.data);
-        setClient(response.data.data);
-
-        console.log("Client Date :", client);
-        // Assuming the response is an array of client data
-      } catch (error) {
-        console.error("Error fetching clients:", error);
-      }
-    };
-
     fetchClient();
 
     if (id !== null) {
       setSampleOps(1);
 
-      const fetchSample = async () => {
-        try {
-          // const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
-          const token = Cookies.get("token");
-          // console.log("Cokiess for Client  :",token);
-          if (!token) {
-            naviagte("/");
-          }
-          //  console.log("Cokkies Token :", token);
-          const response = await axios.get(
-            "https://jaybharat-api.vercel.app/jb/sampling/sample/" + id,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          console.log("Response Data for Sample  :", response.data);
-          setPayload(response.data.data);
-          //setData(response.data); // Assuming the response is an array of client data
-        } catch (error) {
-          console.error("Error fetching clients:", error);
-        }
-      };
-
       fetchSample();
     }
   }, []);
 
-  const handleEditSample = async () => {
-    try {
-      const token = Cookies.get("token");
-      if (!token) {
-        naviagte("/");
-      }
-      const response = await axios.put(
+  const fetchSample = () => {
+    const token = Cookies.get("token");
+    // console.log("Cokiess for Client  :",token);
+    if (!token) {
+      naviagte("/");
+    }
+    axios
+      .get("https://jaybharat-api.vercel.app/jb/sampling/sample/" + id, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("Response Data for Sample  :", response.data);
+        setPayload(response.data.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching clients:", error);
+      });
+  };
+
+  const fetchClient = () => {
+    const token = Cookies.get("token");
+    // console.log("Cokiess for Client  :",token);
+    if (!token) {
+      naviagte("/");
+    }
+    axios
+      .get("https://jaybharat-api.vercel.app/jb/client/clients", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("Response Data for Clients :", response.data);
+        setClient(response.data.data);
+
+        console.log("Client Date :", client);
+      })
+      .catch((error) => {
+        console.error("Error fetching clients:", error);
+      });
+  };
+
+  const handleEditSample = () => {
+    const token = Cookies.get("token");
+    if (!token) {
+      naviagte("/");
+    }
+    axios
+      .put(
         `https://jaybharat-api.vercel.app/jb/sampling/sample/${id}`,
         payload, // Sending the updated payload as the request body
         {
@@ -167,24 +159,25 @@ const Create_Sample = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      console.log("Response Data:", response.data);
-      if (response.data.status === 200) {
-        window.location.reload();
-      }
-      // Handle any response data or UI updates after successful edit
-    } catch (error) {
-      console.error("Error editing client:", error);
-    }
+      )
+      .then((response) => {
+        console.log("Response Data:", response.data);
+        if (response.data.status === 200) {
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        console.error("Error editing client:", error);
+      });
   };
 
-  const handleDeleteSample = async () => {
-    try {
-      const token = Cookies.get("token");
-      if (!token) {
-        naviagte("/");
-      }
-      const response = await axios.delete(
+  const handleDeleteSample = () => {
+    const token = Cookies.get("token");
+    if (!token) {
+      naviagte("/");
+    }
+    axios
+      .delete(
         `https://jaybharat-api.vercel.app/jb/sampling/sample/${id}`,
         // Sending the updated payload as the request body
         {
@@ -192,28 +185,29 @@ const Create_Sample = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      console.log("Response for Delete:", response.data);
-      if (response.data.status === 200) {
-        window.location.href = "/jb_admin/sample";
-      }
-      // Handle any response data or UI updates after successful edit
-    } catch (error) {
-      console.error("Error editing client:", error);
-    }
+      )
+      .then((response) => {
+        console.log("Response for Delete:", response.data);
+        if (response.data.status === 200) {
+          window.location.href = "/jb_admin/sample";
+        }
+      })
+      .catch((error) => {
+        console.error("Error editing client:", error);
+      });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    try {
-      //const token_1 = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo0fQ.NgpdZuV95m4yxIpuPMq6x0TYw72Hi_7fqm9Zj9jBja8';
-      const token = Cookies.get("token");
-      console.log("Cokiess  :", token);
-      if (!token) {
-        naviagte("/");
-      }
-      const response = await axios.post(
+    const token = Cookies.get("token");
+    console.log("Cokiess  :", token);
+    if (!token) {
+      naviagte("/");
+    }
+
+    axios
+      .post(
         "https://jaybharat-api.vercel.app/jb/sampling/create_sample",
         payload,
         {
@@ -221,15 +215,16 @@ const Create_Sample = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      );
-      console.log(" Handle Summit Butoon on Click :",response.data);
-      if (response.data.status === 200) {
-        window.location.href = "/jb_admin/sample";
-      }
-      // setShowAlert(true);
-    } catch (error) {
-      console.log("Error in open up");
-    }
+      )
+      .then((response) => {
+        console.log(" Handle Summit Butoon on Click :", response.data);
+        if (response.data.status === 200) {
+          window.location.href = "/jb_admin/sample";
+        }
+      })
+      .catch((error) => {
+        console.log("Error in open up");
+      });
   };
 
   const setPayloadDate = (date, key) => {
@@ -245,8 +240,6 @@ const Create_Sample = () => {
       [key]: value,
     }));
   };
-
-  console.log("Payload :", payload);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -463,7 +456,6 @@ const Create_Sample = () => {
                   onValueChange={(value) =>
                     handleInputChange("sampling_client", value)
                   }
-                 
                 >
                   <SelectTrigger className="w-[180px]">
                     <SelectValue value={payload.sampling_client ?? ""} />
@@ -613,7 +605,7 @@ const Create_Sample = () => {
                 </h1>
 
                 {payload.sampling_fabrics.map((form, index) => (
-                  <div key={index}>
+                  <div key={index} className={payload.sampling_fabrics.length-1 !== index ? 'border-b border-slate-200' : ''}>
                     <div className="flex items-center">
                       <div className="grid grid-cols-2 w-[40rem] ">
                         <div className="flex items-center">
@@ -678,7 +670,7 @@ const Create_Sample = () => {
                   Embroidery
                 </h1>
                 {payload.sampling_embroidery.map((form, index) => (
-                  <div key={index}>
+                  <div key={index} className={payload.sampling_embroidery.length -1 !== index ? 'border-b border-slate-200 pb-3' : ''}>
                     <div className="grid grid-cols-2  w-[40rem] ">
                       <div className="flex items-center">
                         <p className="font-medium  w-[6rem]  ">
@@ -842,7 +834,7 @@ const Create_Sample = () => {
                   Shiffly
                 </h1>
                 {payload.sampling_shiffly.map((form, index) => (
-                  <div key={index}>
+                  <div key={index} className={payload.sampling_shiffly.length -1 !== index ? 'border-b border-slate-200 pb-3' : ''}>
                     <div className="flex items-center ">
                       <div className="grid grid-cols-2 w-[40rem] ">
                         <div className="flex items-center">
@@ -907,7 +899,7 @@ const Create_Sample = () => {
                   Hand Embroidery
                 </h1>
                 {payload.sampling_hand_embroidery.map((form, index) => (
-                  <div key={index}>
+                  <div key={index} className={payload.sampling_hand_embroidery.length -1 !== index ? 'border-b border-slate-200 pb-3' : ''}>
                     <div className="grid grid-cols-2  w-[40rem] ">
                       <div className="flex items-center">
                         <p className="font-medium  w-[6rem] ">Embroidery No.</p>
@@ -1073,7 +1065,7 @@ const Create_Sample = () => {
                 </h1>
 
                 {payload.sampling_chemical_lacing.map((form, index) => (
-                  <div key={index}>
+                  <div key={index} className={payload.sampling_chemical_lacing.length -1 !== index ? 'border-b border-slate-200 pb-3' : ''}>
                     <div className="flex items-center">
                       <div className="grid grid-cols-2 w-[40rem] ">
                         <div className="flex items-center">
