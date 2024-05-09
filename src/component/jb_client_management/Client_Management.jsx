@@ -41,6 +41,7 @@ const Client_Management = () => {
   const [openDeleteModel, setOpenDeleteModel] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
+  const [statusError,setStatusError] = useState(null)
 
   const [deleteRef, setDeleteRef] = useState(0);
 
@@ -84,7 +85,8 @@ const Client_Management = () => {
       })
       .then((response) => {
         console.log("Response Data :", response.data);
-        response.data.data?.sort((a, b) => { //add sorting
+        response.data.data?.sort((a, b) => {
+          //add sorting
           return a.id - b.id;
         });
         setClientData(response.data); // Assuming the response is an array of client data
@@ -122,6 +124,18 @@ const Client_Management = () => {
           setClientData([]);
           getClients();
           setEditLoading(false);
+
+          setStatusError(response.data.status)
+          setShowAlert('Your data is Edited Successfully');
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 2000);
+        } else if (response.data.status === 500) {
+          setStatusError(data.status)
+          setShowAlert(response.data.error);
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 2000);
         }
       })
       .catch((error) => {
@@ -176,14 +190,26 @@ const Client_Management = () => {
           },
         }
       )
-      .then(() => {
-        setClientData([]);
-        getClients();
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 2000);
-        setLoading(false);
+      .then((response) => {
+        console.log(response.data);
+        let { data } = response;
+        if (data.status === 200) {
+          setClientData([]);
+          getClients();
+          setStatusError(data.status)
+          setShowAlert('Client data saved and onboarded successfully!');
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 2000);
+          setLoading(false);
+        } else if (data.status === 500) {
+          setLoading(false);
+          setStatusError(data.status)
+          setShowAlert(`Sorry, ${data.error}`);
+          setTimeout(() => {
+            setShowAlert(false);
+          }, 4000);
+        }
       })
       .catch(() => {
         setLoading(false);
@@ -329,18 +355,17 @@ const Client_Management = () => {
                       </div>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel onClick={() => setOpenModel(false)}>                        
-                          Cancel
+                      <AlertDialogCancel onClick={() => setOpenModel(false)}>
+                        Cancel
                       </AlertDialogCancel>
-                      <AlertDialogAction onClick={handleEdit} className="flex gap-x-3">
+                      <AlertDialogAction
+                        onClick={handleEdit}
+                        className="flex gap-x-3"
+                      >
                         Edit New Value
                         {editLoading && (
-                          <Icons
-                            string="loading"
-                            width="25px"
-                            height="25px"
-                          />
-                        )}                        
+                          <Icons string="loading" width="25px" height="25px" />
+                        )}
                       </AlertDialogAction>
                     </AlertDialogFooter>
                   </AlertDialogContent>
@@ -387,8 +412,8 @@ const Client_Management = () => {
         </div>
       </div>
       {showAlert && (
-        <div className="tooltip-message">
-          Client data saved and onboarded successfully!
+        <div className={`tooltip-message ${statusError===200 ? 'bg-black text-white' : 'bg-red-700 text-white'}`}>
+          {showAlert}
         </div>
       )}
     </div>
