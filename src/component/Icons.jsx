@@ -1,6 +1,6 @@
 import React from "react";
 
-const Icons = ({ string, width=undefined, height=undefined }) => {
+const Icons = ({ string, width=undefined, height=undefined,color=undefined }) => {
   if (string === "hide") {
     return (
       <svg
@@ -45,7 +45,7 @@ const Icons = ({ string, width=undefined, height=undefined }) => {
             strokeDasharray="164.93361431346415 56.97787143782138"
             r="35"
             strokeWidth="6"
-            stroke="#ffffff"
+            stroke={color || "#ffffff"}
             fill="none"
             cy="50"
             cx="50"
