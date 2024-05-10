@@ -88,16 +88,10 @@ const Client_Management = () => {
     if (!token) {
       naviagte("/");
     }
-    let url = null;
 
-    if (page === null) {
-      url = "https://jaybharat-api.vercel.app/jb/client/clients";
-    } else {
-      url = "https://jaybharat-api.vercel.app/jb/client/clients?page=" + page;
-    }
     setDataLoading(true);
     axios
-      .get(url, {
+      .get(`https://jaybharat-api.vercel.app/jb/client/clients?page=${page || '1'}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
