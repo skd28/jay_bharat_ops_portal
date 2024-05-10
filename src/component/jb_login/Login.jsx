@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import image from "../../assets/jay_bhart_logo.jpeg";
 import Cookies from "js-cookie";
@@ -20,6 +20,14 @@ const Login = () => {
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+
+  useEffect(()=>{
+    const token = Cookies.get("token");
+    // console.log("Cokiess for Client  :",token);
+    if (token) {
+      naviagte("/jb_admin");
+    }
+  },[])
 
   const handleSummit = (e) => {
     e.preventDefault();
