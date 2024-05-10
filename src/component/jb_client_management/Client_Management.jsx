@@ -41,7 +41,7 @@ const Client_Management = () => {
   const [openDeleteModel, setOpenDeleteModel] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
-  const [statusError,setStatusError] = useState(null)
+  const [statusError, setStatusError] = useState(null);
 
   const [deleteRef, setDeleteRef] = useState(0);
 
@@ -51,9 +51,20 @@ const Client_Management = () => {
     client_mobile_number: "",
     client_description_info: "",
   });
+  const [paginationRef, setPaginationRef] = useState(1);
+
+  const paginationNext = () => {
+    setPaginationRef((prev) => prev + 5);
+  };
+
+  const paginationPrev = () => {
+    if (paginationRef !== 1) {
+      setPaginationRef((prev) => prev - 5);
+    }
+  };
 
   useEffect(() => {
-    getClients();
+    getClients(null);
   }, []);
 
   const setEditPayload = (item) => {
@@ -70,26 +81,33 @@ const Client_Management = () => {
     setOpenEditPayload({ ...openEditPayload, [e.target.name]: e.target.value });
   }; */
 
-  const getClients = () => {
+  const getClients = (page) => {
     const token = Cookies.get("token");
     // console.log("Cokiess for Client  :",token);
     if (!token) {
       naviagte("/");
     }
+    let url = null;
+
+    if (page === null) {
+      url = "https://jaybharat-api.vercel.app/jb/client/clients";
+    } else {
+      url = "https://jaybharat-api.vercel.app/jb/client/clients?page="+page;
+    }
 
     axios
-      .get("https://jaybharat-api.vercel.app/jb/client/clients", {
+      .get(url, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
       .then((response) => {
-        console.log("Response Data :", response.data);
-        response.data.data?.sort((a, b) => {
-          //add sorting
-          return a.id - b.id;
-        });
-        setClientData(response.data); // Assuming the response is an array of client data
+        console.log("Response Data :", response.data.results);
+        // response.data.results?.sort((a, b) => {
+        //   //add sorting
+        //   return a.id - b.id;
+        // });
+        setClientData(response.data.results); // Assuming the response is an array of client data
       })
       .catch((error) => {
         console.error("Error fetching clients:", error);
@@ -122,16 +140,16 @@ const Client_Management = () => {
         if (response.data.status === 200) {
           setOpenModel(false);
           setClientData([]);
-          getClients();
+          getClients(null);
           setEditLoading(false);
 
-          setStatusError(response.data.status)
-          setShowAlert('Your data is Edited Successfully');
+          setStatusError(response.data.status);
+          setShowAlert("Your data is Edited Successfully");
           setTimeout(() => {
             setShowAlert(false);
           }, 2000);
         } else if (response.data.status === 500) {
-          setStatusError(data.status)
+          setStatusError(data.status);
           setShowAlert(response.data.error);
           setTimeout(() => {
             setShowAlert(false);
@@ -165,7 +183,7 @@ const Client_Management = () => {
           setOpenDeleteModel(false);
           setLoading(false);
           setClientData([]);
-          getClients();
+          getClients(null);
         }
       })
       .catch((error) => {
@@ -196,15 +214,15 @@ const Client_Management = () => {
         if (data.status === 200) {
           setClientData([]);
           getClients();
-          setStatusError(data.status)
-          setShowAlert('Client data saved and onboarded successfully!');
+          setStatusError(data.status);
+          setShowAlert("Client data saved and onboarded successfully!");
           setTimeout(() => {
             setShowAlert(false);
           }, 2000);
           setLoading(false);
         } else if (data.status === 500) {
           setLoading(false);
-          setStatusError(data.status)
+          setStatusError(data.status);
           setShowAlert(`Sorry, ${data.error}`);
           setTimeout(() => {
             setShowAlert(false);
@@ -246,8 +264,8 @@ const Client_Management = () => {
                     </TableHead>
                   </TableRow>
                 </TableHeader>
-                {clientData.data?.length > 0
-                  ? clientData.data.map((item) => (
+                {clientData?.length > 0
+                  ? clientData.map((item) => (
                       <TableBody key={item.id} className="border-2">
                         <TableRow className="h-[3rem] ">
                           <TableCell className="font-inter pl-4">
@@ -291,6 +309,26 @@ const Client_Management = () => {
                       </TableBody>
                     ))}
               </Table>
+
+              <div className=" flex gap-3">
+                <button onClick={() => paginationPrev()}>PREV</button>
+                <button onClick={() => getClients(null)}>
+                  {paginationRef}
+                </button>
+                <button onClick={() => getClients(paginationRef + 1)}>
+                  {paginationRef + 1}
+                </button>
+                <button onClick={() => getClients(paginationRef + 2)}>
+                  {paginationRef + 2}
+                </button>
+                <button onClick={() => getClients(paginationRef + 3)}>
+                  {paginationRef + 3}
+                </button>
+                <button onClick={() => getClients(paginationRef + 4)}>
+                  {paginationRef + 4}
+                </button>
+                <button onClick={() => paginationNext()}>NEXT</button>
+              </div>
 
               <AlertDialog asChild open={openModel}>
                 {/* <AlertDialogTrigger className="">
@@ -412,7 +450,13 @@ const Client_Management = () => {
         </div>
       </div>
       {showAlert && (
-        <div className={`tooltip-message ${statusError===200 ? 'bg-black text-white' : 'bg-red-700 text-white'}`}>
+        <div
+          className={`tooltip-message ${
+            statusError === 200
+              ? "bg-black text-white"
+              : "bg-red-700 text-white"
+          }`}
+        >
           {showAlert}
         </div>
       )}

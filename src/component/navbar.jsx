@@ -17,7 +17,7 @@ const Navbar = () => {
             <Link to='/jb_admin/sample'>0:Sampling</Link>
           </div>
 
-          <div className='text-white text-center font-inter'>Profile Settings</div>
+          {/* <div className='text-white text-center font-inter'>Profile Settings</div> */}
         </div>
       </div>
     </div>
