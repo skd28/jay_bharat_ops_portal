@@ -38,6 +38,7 @@ const Client_Management = () => {
 
   const [openModel, setOpenModel] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(false);
   const [openDeleteModel, setOpenDeleteModel] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
@@ -92,9 +93,9 @@ const Client_Management = () => {
     if (page === null) {
       url = "https://jaybharat-api.vercel.app/jb/client/clients";
     } else {
-      url = "https://jaybharat-api.vercel.app/jb/client/clients?page="+page;
+      url = "https://jaybharat-api.vercel.app/jb/client/clients?page=" + page;
     }
-
+    setDataLoading(true);
     axios
       .get(url, {
         headers: {
@@ -107,6 +108,9 @@ const Client_Management = () => {
         //   //add sorting
         //   return a.id - b.id;
         // });
+        setDataLoading(false);
+        /* if(response.data.results.length > 0){
+        } */
         setClientData(response.data.results); // Assuming the response is an array of client data
       })
       .catch((error) => {
@@ -250,85 +254,92 @@ const Client_Management = () => {
           <div className="mt-16 flex lg:mb-[10rem] gap-x-7">
             <div>
               {/* Table */}
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className=" xl:w-[20rem] lg:w-[20rem]  border-2 pl-5 text-[1rem] font-inter ">
-                      Client Name
-                    </TableHead>
-                    <TableHead className=" xl:w-[10rem] lg:w-[8rem]  border-2 pl-4 text-[1rem] font-inter ">
-                      Client Ref No
-                    </TableHead>
-                    <TableHead className=" xl:w-[18rem] lg:w-[20rem] border-2 pl-5 text-[1rem] font-inter ">
-                      Actions
-                    </TableHead>
-                  </TableRow>
-                </TableHeader>
-                {clientData?.length > 0
-                  ? clientData.map((item) => (
-                      <TableBody key={item.id} className="border-2">
-                        <TableRow className="h-[3rem] ">
-                          <TableCell className="font-inter pl-4">
-                            {item.client_name}
-                          </TableCell>
-                          <TableCell className="border pl-4 font-inter  ">
-                            {item.client_ref_no}
-                          </TableCell>
+              {!(!dataLoading && clientData?.length === 0) ? (
+                <>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className=" xl:w-[20rem] lg:w-[20rem]  border-2 pl-5 text-[1rem] font-inter ">
+                          Client Name
+                        </TableHead>
+                        <TableHead className=" xl:w-[10rem] lg:w-[8rem]  border-2 pl-4 text-[1rem] font-inter ">
+                          Client Ref No
+                        </TableHead>
+                        <TableHead className=" xl:w-[18rem] lg:w-[20rem] border-2 pl-5 text-[1rem] font-inter ">
+                          Actions
+                        </TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    {clientData?.length > 0
+                      ? clientData.map((item) => (
+                          <TableBody key={item.id} className="border-2">
+                            <TableRow className="h-[3rem] ">
+                              <TableCell className="font-inter pl-4">
+                                {item.client_name}
+                              </TableCell>
+                              <TableCell className="border pl-4 font-inter  ">
+                                {item.client_ref_no}
+                              </TableCell>
 
-                          <TableCell className="flex ml-4 xl:w-[18rem] lg:w-[11rem]">
-                            <Button onClick={() => setEditPayload(item)}>
-                              Edit
-                            </Button>
-                            <Button
-                              variant="destructive"
-                              onClick={() => setDeletePayload(item.id)}
-                              className="ml-3"
-                            >
-                              Delete
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    ))
-                  : [1, 2, 3, 4, 5, 6, 7].map((v) => (
-                      <TableBody key={v} className="border-2">
-                        <TableRow className="h-[3rem]">
-                          <TableCell className="font-inter pl-4">
-                            <div className="skeleton-box h-5 w-full"></div>
-                          </TableCell>
-                          <TableCell className="border pl-4 font-inter  ">
-                            <div className="skeleton-box h-5 w-full"></div>
-                          </TableCell>
+                              <TableCell className="flex ml-4 xl:w-[18rem] lg:w-[11rem]">
+                                <Button onClick={() => setEditPayload(item)}>
+                                  Edit
+                                </Button>
+                                <Button
+                                  variant="destructive"
+                                  onClick={() => setDeletePayload(item.id)}
+                                  className="ml-3"
+                                >
+                                  Delete
+                                </Button>
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        ))
+                      : [1, 2, 3, 4, 5, 6, 7].map((v) => (
+                          <TableBody key={v} className="border-2">
+                            <TableRow className="h-[3rem]">
+                              <TableCell className="font-inter pl-4">
+                                <div className="skeleton-box h-5 w-full"></div>
+                              </TableCell>
+                              <TableCell className="border pl-4 font-inter  ">
+                                <div className="skeleton-box h-5 w-full"></div>
+                              </TableCell>
 
-                          <TableCell className="flex items-center gap-x-4 ml-4 xl:w-[18rem] lg:w-[11rem]">
-                            <div className="skeleton-box h-7 w-1/2"></div>
+                              <TableCell className="flex items-center gap-x-4 ml-4 xl:w-[18rem] lg:w-[11rem]">
+                                <div className="skeleton-box h-7 w-1/2"></div>
 
-                            <div className="skeleton-box h-7 w-1/2"></div>
-                          </TableCell>
-                        </TableRow>
-                      </TableBody>
-                    ))}
-              </Table>
-
-              <div className=" flex gap-3">
-                <button onClick={() => paginationPrev()}>PREV</button>
-                <button onClick={() => getClients(null)}>
-                  {paginationRef}
-                </button>
-                <button onClick={() => getClients(paginationRef + 1)}>
-                  {paginationRef + 1}
-                </button>
-                <button onClick={() => getClients(paginationRef + 2)}>
-                  {paginationRef + 2}
-                </button>
-                <button onClick={() => getClients(paginationRef + 3)}>
-                  {paginationRef + 3}
-                </button>
-                <button onClick={() => getClients(paginationRef + 4)}>
-                  {paginationRef + 4}
-                </button>
-                <button onClick={() => paginationNext()}>NEXT</button>
-              </div>
+                                <div className="skeleton-box h-7 w-1/2"></div>
+                              </TableCell>
+                            </TableRow>
+                          </TableBody>
+                        ))}
+                  </Table>
+                  <div className=" flex gap-3">
+                    <button onClick={() => paginationPrev()}>PREV</button>
+                    <button onClick={() => getClients(null)}>
+                      {paginationRef}
+                    </button>
+                    <button onClick={() => getClients(paginationRef + 1)}>
+                      {paginationRef + 1}
+                    </button>
+                    <button onClick={() => getClients(paginationRef + 2)}>
+                      {paginationRef + 2}
+                    </button>
+                    <button onClick={() => getClients(paginationRef + 3)}>
+                      {paginationRef + 3}
+                    </button>
+                    <button onClick={() => getClients(paginationRef + 4)}>
+                      {paginationRef + 4}
+                    </button>
+                    <button onClick={() => paginationNext()}>NEXT</button>
+                  </div>
+                </>
+              ) : (
+                <div className="text-center text-3xl xl:w-[50rem] lg:w-[50rem]">
+                  No Data Found
+                </div>
+              )}
 
               <AlertDialog asChild open={openModel}>
                 {/* <AlertDialogTrigger className="">

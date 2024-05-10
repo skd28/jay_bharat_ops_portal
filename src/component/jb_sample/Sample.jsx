@@ -107,27 +107,6 @@ const Sample = () => {
             )
           ) : (
             <>
-              {/* <div className="mt-[5.5rem] flex">
-                <Input
-                  className="w-[20rem] "
-                  placeholder="Filter by sample name"
-                />
-
-                <Input
-                  className="w-[10rem] mx-4 "
-                  placeholder="Filter by sample ID"
-                />
-
-                <Button className="   border text-white">Quality</Button>
-
-                <Button className=" text-white  border mx-4">Process</Button>
-
-                <Button className="bg-gray-800">
-                  <CiFilter className="text-[1.4rem]" />
-                  Filter the records
-                </Button>
-              </div> */}
-
               <div className="mt-[3rem] rounded-md  grid grid-cols-3 my-5 gap-5 ">
                 {data.map((item) => (
                   <div
