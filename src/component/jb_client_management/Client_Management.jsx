@@ -43,8 +43,11 @@ const Client_Management = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [statusError, setStatusError] = useState(null);
+  const [dataPerPage, setDataPerPage] = useState(5);
 
   const [deleteRef, setDeleteRef] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [startRange, setStartRange] = useState(1);
 
   const [openEditPayload, setOpenEditPayload] = useState({
     client_name: "",
@@ -52,21 +55,46 @@ const Client_Management = () => {
     client_mobile_number: "",
     client_description_info: "",
   });
-  const [paginationRef, setPaginationRef] = useState(1);
+  const [paginationRef, setPaginationRef] = useState([]);
+  const [paginationRefClone, setPaginationRefClone] = useState([]);
+
+  useEffect(() => {
+    getClients();
+  }, []);
 
   const paginationNext = () => {
-    setPaginationRef((prev) => prev + 5);
-  };
-
-  const paginationPrev = () => {
-    if (paginationRef !== 1) {
-      setPaginationRef((prev) => prev - 5);
+    if (currentPage !== paginationRef[paginationRef.length - 1]) {
+      setClientData([]);
+      setCurrentPage((prev) => prev + 1);
+      getClients(currentPage + 1);
+      if (
+        paginationRef.length > 3 &&
+        currentPage === paginationRefClone[paginationRefClone.length - 1] && 
+        !paginationRefClone.includes(paginationRef[paginationRef.length - 1])
+      ) {
+        let pages = paginationRef.slice(0);
+        setStartRange((prev) => prev + 1);
+        setPaginationRefClone(pages.slice(startRange, startRange + 3));
+      }
     }
   };
 
-  useEffect(() => {
-    getClients(null);
-  }, []);
+  const paginationPrev = () => {
+    if (currentPage !== 1) {
+      setClientData([]);
+      setCurrentPage((prev) => prev - 1);
+      getClients(currentPage - 1);
+      if (
+        paginationRef.length > 3 &&
+        currentPage === paginationRefClone[0] && 
+        paginationRefClone[0] !== 1
+      ) {
+        let pages = paginationRef.slice(0);
+        setStartRange((prev) => prev - 1);
+        setPaginationRefClone(pages.slice(startRange - 2, startRange + 1));
+      }
+    }
+  };
 
   const setEditPayload = (item) => {
     setOpenEditPayload(item);
@@ -91,20 +119,37 @@ const Client_Management = () => {
 
     setDataLoading(true);
     axios
-      .get(`https://jaybharat-api.vercel.app/jb/client/clients?page=${page || '1'}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `https://jaybharat-api.vercel.app/jb/client/clients?page=${
+          page || "1"
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
+        let { count } = response.data;
+        let modulo =
+          Number.isInteger(count / dataPerPage)
+            ? count / dataPerPage
+            : parseInt(count / dataPerPage) + 1;
+        setPaginationRef(Array.from({ length: modulo }, (_, i) => i + 1));
+        if (page === undefined) {
+          let pages = Array.from({ length: modulo }, (_, i) => i + 1);
+          if (pages.length > 3) {
+            setPaginationRefClone(pages.slice(0, 3));
+          } else {
+            setPaginationRefClone(pages);
+          }
+        }
         console.log("Response Data :", response.data.results);
         // response.data.results?.sort((a, b) => {
         //   //add sorting
         //   return a.id - b.id;
         // });
         setDataLoading(false);
-        /* if(response.data.results.length > 0){
-        } */
         setClientData(response.data.results); // Assuming the response is an array of client data
       })
       .catch((error) => {
@@ -212,6 +257,7 @@ const Client_Management = () => {
         if (data.status === 200) {
           setClientData([]);
           getClients();
+          setCurrentPage(1)
           setStatusError(data.status);
           setShowAlert("Client data saved and onboarded successfully!");
           setTimeout(() => {
@@ -245,8 +291,8 @@ const Client_Management = () => {
             Manage, onbard and set activation status for the client
           </p>
 
-          <div className="mt-16 flex lg:mb-[10rem] gap-x-7">
-            <div>
+          <div className="mt-16 flex lg:mb-[10rem] gap-x-7 relative">
+            <div className="w-full flex flex-col items-center gap-y-6">
               {/* Table */}
               {!(!dataLoading && clientData?.length === 0) ? (
                 <>
@@ -290,7 +336,7 @@ const Client_Management = () => {
                             </TableRow>
                           </TableBody>
                         ))
-                      : [1, 2, 3, 4, 5, 6, 7].map((v) => (
+                      : [1, 2, 3, 4, 5].map((v) => (
                           <TableBody key={v} className="border-2">
                             <TableRow className="h-[3rem]">
                               <TableCell className="font-inter pl-4">
@@ -309,25 +355,55 @@ const Client_Management = () => {
                           </TableBody>
                         ))}
                   </Table>
-                  <div className=" flex gap-3">
-                    <button onClick={() => paginationPrev()}>PREV</button>
-                    <button onClick={() => getClients(null)}>
-                      {paginationRef}
-                    </button>
-                    <button onClick={() => getClients(paginationRef + 1)}>
-                      {paginationRef + 1}
-                    </button>
-                    <button onClick={() => getClients(paginationRef + 2)}>
-                      {paginationRef + 2}
-                    </button>
-                    <button onClick={() => getClients(paginationRef + 3)}>
-                      {paginationRef + 3}
-                    </button>
-                    <button onClick={() => getClients(paginationRef + 4)}>
-                      {paginationRef + 4}
-                    </button>
-                    <button onClick={() => paginationNext()}>NEXT</button>
-                  </div>
+                  {paginationRefClone.length ? (
+                    <div className="absolute bottom-0 flex gap-3">
+                      <button
+                        className={`py-2 px-4 rounded-lg bg-gray-900 text-white ${
+                          currentPage !== 1
+                            ? "bg-gray-900 text-white"
+                            : "bg-gray-300 text-white"
+                        }`}
+                        disabled={currentPage === 1}
+                        onClick={() => paginationPrev()}
+                      >
+                        PREV
+                      </button>
+                      {paginationRefClone.map((page) => (
+                        <div
+                          key={page}
+                          className={
+                            currentPage === page
+                              ? "rounded-xl p-[1px] border-[3px] border-blue-500"
+                              : "rounded-xl p-[1px] border-[3px] border-[transparent]"
+                          }
+                        >
+                          <button
+                            className={`py-2 px-4 rounded-lg bg-gray-900 text-white`}
+                            onClick={() => {setClientData([]);setCurrentPage(page);getClients(page)}}
+                          >
+                            {page}
+                          </button>
+                        </div>
+                      ))}
+                      <button
+                        className={`py-2 px-4 rounded-lg bg-gray-900 text-white ${
+                          currentPage !==
+                          paginationRef[paginationRef.length - 1]
+                            ? "bg-gray-900 text-white"
+                            : "bg-gray-300 text-white"
+                        }`}
+                        disabled={
+                          currentPage ===
+                          paginationRef[paginationRef.length - 1]
+                        }
+                        onClick={() => paginationNext()}
+                      >
+                        NEXT
+                      </button>
+                    </div>
+                  ) : (
+                    <></>
+                  )}
                 </>
               ) : (
                 <div className="text-center text-3xl xl:w-[50rem] lg:w-[50rem]">
