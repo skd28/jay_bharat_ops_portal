@@ -186,7 +186,7 @@ const Sample = () => {
               {paginationRefClone.length ? (
                 <div className="mt-6 flex gap-3 mx-auto justify-center w-full">
                   <button
-                    className={`py-2 px-4 rounded-lg bg-gray-900 text-white ${
+                    className={`py-2 px-4 rounded-lg ${
                       currentPage !== 1
                         ? "bg-gray-900 text-white"
                         : "bg-gray-300 text-white"
@@ -218,7 +218,7 @@ const Sample = () => {
                     </div>
                   ))}
                   <button
-                    className={`py-2 px-4 rounded-lg bg-gray-900 text-white ${
+                    className={`py-2 px-4 rounded-lg ${
                       currentPage !== paginationRef[paginationRef.length - 1]
                         ? "bg-gray-900 text-white"
                         : "bg-gray-300 text-white"
