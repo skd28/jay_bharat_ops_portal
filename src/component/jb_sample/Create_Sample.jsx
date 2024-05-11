@@ -1746,14 +1746,14 @@ const Create_Sample = () => {
         {(dataLoading ||
           client?.length === 0 ||
           (dataSubmit === false && !!id)) && (
-          <div className={`tooltip-message flex flex-col items-center`}>
+          <div className={`tooltip-message flex flex-col items-center bg-black text-white opacity-100`}>
             {(dataLoading || client?.length === 0) && (
               <>
                 <Icons
                   string="loading"
                   width="80px"
                   height="80px"
-                  color="black"
+                  color="white"
                 />
                 Please wait while we are loading . . .
               </>
