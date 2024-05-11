@@ -61,17 +61,46 @@ const Create_Sample = () => {
     sampling_dispatch_date: null,
     sampling_cost: null,
 
-    sampling_fabrics: [{ fabricQuality: "", fabricCost: "", fabric_consumption: "" }],
+    sampling_fabrics: [
+      { fabricQuality: "", fabricCost: "", fabric_consumption: "" },
+    ],
 
-    sampling_embroidery: [{embroidery_no: "",cost_embroidery: "",start_date: "",end_date: "",embroidery_consumption: ""}],
+    sampling_embroidery: [
+      {
+        embroidery_no: "",
+        cost_embroidery: "",
+        start_date: "",
+        end_date: "",
+        embroidery_consumption: "",
+      },
+    ],
 
-    sampling_shiffly: [{ shiffly_number: "", cost_shiffly: "", shiffly_consumption: "" }],
+    sampling_shiffly: [
+      { shiffly_number: "", cost_shiffly: "", shiffly_consumption: "" },
+    ],
 
-    sampling_hand_embroidery: [{handembroidery_no: "",cost_handembroidery: "",start_date: "",end_date: ""}],
+    sampling_hand_embroidery: [
+      {
+        handembroidery_no: "",
+        cost_handembroidery: "",
+        start_date: "",
+        end_date: "",
+      },
+    ],
 
-    sampling_printing_dyeing: [{print_no: "",dyeing_color: "",costing: "",start_date: "",end_date: ""}],
+    sampling_printing_dyeing: [
+      {
+        print_no: "",
+        dyeing_color: "",
+        costing: "",
+        start_date: "",
+        end_date: "",
+      },
+    ],
 
-    sampling_chemical_lacing: [{ lacing_number: "", cost_lacing: "", lacing_consumption: "" }],
+    sampling_chemical_lacing: [
+      { lacing_number: "", cost_lacing: "", lacing_consumption: "" },
+    ],
 
     sampling_stitching_count: null,
     sampling_stitching_cost: null,
@@ -96,8 +125,6 @@ const Create_Sample = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  
 
   useEffect(() => {
     fetchClient();
@@ -132,42 +159,76 @@ const Create_Sample = () => {
           sampling_dispatch_date: response.data.data.sampling_dispatch_date,
           sampling_cost: response.data.data.sampling_cost,
 
-          sampling_fabrics: [{ fabricQuality: "", fabricCost: "", fabric_consumption: "" }],
+          sampling_fabrics: [
+            { fabricQuality: "", fabricCost: "", fabric_consumption: "" },
+          ],
 
-          sampling_embroidery: [{ embroidery_no: "", cost_embroidery: "", start_date: "", end_date: "", embroidery_consumption: "" }],
+          sampling_embroidery: [
+            {
+              embroidery_no: "",
+              cost_embroidery: "",
+              start_date: "",
+              end_date: "",
+              embroidery_consumption: "",
+            },
+          ],
 
-          sampling_shiffly: [{ shiffly_number: "", cost_shiffly: "", shiffly_consumption: "" }],
+          sampling_shiffly: [
+            { shiffly_number: "", cost_shiffly: "", shiffly_consumption: "" },
+          ],
 
-          sampling_hand_embroidery: [{ handembroidery_no: "", cost_handembroidery: "", start_date: "", end_date: "" }],
+          sampling_hand_embroidery: [
+            {
+              handembroidery_no: "",
+              cost_handembroidery: "",
+              start_date: "",
+              end_date: "",
+            },
+          ],
 
-          sampling_printing_dyeing: [{print_no: "", dyeing_color: "", costing: "", start_date: "", end_date: ""}],
+          sampling_printing_dyeing: [
+            {
+              print_no: "",
+              dyeing_color: "",
+              costing: "",
+              start_date: "",
+              end_date: "",
+            },
+          ],
 
-          sampling_chemical_lacing: [{ lacing_number: "", cost_lacing: "", lacing_consumption: "" }],
+          sampling_chemical_lacing: [
+            { lacing_number: "", cost_lacing: "", lacing_consumption: "" },
+          ],
 
           sampling_stitching_count: response.data.data.sampling_stitching_count,
           sampling_stitching_cost: response.data.data.sampling_stitching_cost,
-          sampling_stitching_start_date: response.data.data.sampling_stitching_start_date,
-          sampling_stitching_end_date: response.data.data.sampling_stitching_end_date,
+          sampling_stitching_start_date:
+            response.data.data.sampling_stitching_start_date,
+          sampling_stitching_end_date:
+            response.data.data.sampling_stitching_end_date,
           sampling_created_by: 5,
           sampling_updated_by: 5,
         };
-        if(response.data.data.sampling_fabrics.length > 0) {
-          obj['sampling_fabrics'] = response.data.data.sampling_fabrics
+        if (response.data.data.sampling_fabrics.length > 0) {
+          obj["sampling_fabrics"] = response.data.data.sampling_fabrics;
         }
-        if(response.data.data.sampling_embroidery.length > 0) {
-          obj['sampling_embroidery'] = response.data.data.sampling_embroidery
+        if (response.data.data.sampling_embroidery.length > 0) {
+          obj["sampling_embroidery"] = response.data.data.sampling_embroidery;
         }
-        if(response.data.data.sampling_shiffly.length > 0) {
-          obj['sampling_shiffly'] = response.data.data.sampling_shiffly
+        if (response.data.data.sampling_shiffly.length > 0) {
+          obj["sampling_shiffly"] = response.data.data.sampling_shiffly;
         }
-        if(response.data.data.sampling_hand_embroidery.length > 0) {
-          obj['sampling_hand_embroidery'] = response.data.data.sampling_hand_embroidery
+        if (response.data.data.sampling_hand_embroidery.length > 0) {
+          obj["sampling_hand_embroidery"] =
+            response.data.data.sampling_hand_embroidery;
         }
-        if(response.data.data.sampling_printing_dyeing.length > 0) {
-          obj['sampling_printing_dyeing'] = response.data.data.sampling_printing_dyeing
+        if (response.data.data.sampling_printing_dyeing.length > 0) {
+          obj["sampling_printing_dyeing"] =
+            response.data.data.sampling_printing_dyeing;
         }
-        if(response.data.data.sampling_chemical_lacing.length > 0) {
-          obj['sampling_chemical_lacing'] = response.data.data.sampling_chemical_lacing
+        if (response.data.data.sampling_chemical_lacing.length > 0) {
+          obj["sampling_chemical_lacing"] =
+            response.data.data.sampling_chemical_lacing;
         }
         setDataLoading(false);
         setPayload(obj);
@@ -193,7 +254,7 @@ const Create_Sample = () => {
         },
       })
       .then((response) => {
-        setClient(response.data.data);
+        setClient(response.data.results);
       })
       .catch((error) => {
         console.error("Error fetching clients:", error);
@@ -580,7 +641,7 @@ const Create_Sample = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectGroup>
-                      {client.map((item, index) => (
+                      {client?.map((item, index) => (
                         <SelectItem key={index} value={item.id}>
                           {item.client_ref_no}
                         </SelectItem>
@@ -1683,10 +1744,10 @@ const Create_Sample = () => {
           </div>
         </div>
         {(dataLoading ||
-          client.length === 0 ||
+          client?.length === 0 ||
           (dataSubmit === false && !!id)) && (
           <div className={`tooltip-message flex flex-col items-center`}>
-            {(dataLoading || client.length === 0) && (
+            {(dataLoading || client?.length === 0) && (
               <>
                 <Icons
                   string="loading"
@@ -1703,12 +1764,14 @@ const Create_Sample = () => {
                 Sampling page
               </span>
             )}
-            {dataSubmit === false && id === null && (
-              <span>
-                Your Data is Submitted successfully. You are redirecting to
-                Sampling page
-              </span>
-            )}
+          </div>
+        )}
+        {dataSubmit === false && id === null && (
+          <div className={`tooltip-message flex flex-col items-center`}>
+            <span>
+              Your Data is Submitted successfully. You are redirecting to
+              Sampling page
+            </span>
           </div>
         )}
       </div>
