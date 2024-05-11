@@ -12,21 +12,49 @@ const Sample = () => {
   const [data, setData] = useState([]);
   const naviagte = useNavigate();
 
-  const [paginationRef, setPaginationRef] = useState(1);
+  const [paginationRef, setPaginationRef] = useState([]);
+  const [paginationRefClone, setPaginationRefClone] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [startRange, setStartRange] = useState(1);
+  const [dataPerPage, setDataPerPage] = useState(6);
 
   const [loading, setLoading] = useState(false);
 
   const paginationNext = () => {
-    setPaginationRef((prev) => prev + 5);
-  };
-
-  const paginationPrev = () => {
-    if (paginationRef !== 1) {
-      setPaginationRef((prev) => prev - 5);
+    if (currentPage !== paginationRef[paginationRef.length - 1]) {
+      setData([]);
+      setCurrentPage((prev) => prev + 1);
+      fetchSample(currentPage + 1);
+      if (
+        paginationRef.length > 3 &&
+        currentPage === paginationRefClone[paginationRefClone.length - 1] &&
+        !paginationRefClone.includes(paginationRef[paginationRef.length - 1])
+      ) {
+        let pages = paginationRef.slice(0);
+        setStartRange((prev) => prev + 1);
+        setPaginationRefClone(pages.slice(startRange, startRange + 3));
+      }
     }
   };
 
-  const fetchSample = (page=undefined) => {
+  const paginationPrev = () => {
+    if (currentPage !== 1) {
+      setData([]);
+      setCurrentPage((prev) => prev - 1);
+      fetchSample(currentPage - 1);
+      if (
+        paginationRef.length > 3 &&
+        currentPage === paginationRefClone[0] &&
+        paginationRefClone[0] !== 1
+      ) {
+        let pages = paginationRef.slice(0);
+        setStartRange((prev) => prev - 1);
+        setPaginationRefClone(pages.slice(startRange - 2, startRange + 1));
+      }
+    }
+  };
+
+  const fetchSample = (page = undefined) => {
     const token = Cookies.get("token");
     // console.log("Cokiess for Client  :",token);
     if (!token) {
@@ -35,15 +63,34 @@ const Sample = () => {
 
     setLoading(true);
     axios
-      .get(`https://jaybharat-api.vercel.app/jb/sampling/samples?page=${page || '1'}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
+      .get(
+        `https://jaybharat-api.vercel.app/jb/sampling/samples?page=${
+          page || "1"
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .then((response) => {
+        let { count } = response.data;
+        let modulo = Number.isInteger(count / dataPerPage)
+          ? count / dataPerPage
+          : parseInt(count / dataPerPage) + 1;
+        setPaginationRef(Array.from({ length: modulo }, (_, i) => i + 1));
+        if (page === undefined && modulo > 1) {
+          let pages = Array.from({ length: modulo }, (_, i) => i + 1);
+          if (pages.length > 3) {
+            setPaginationRefClone(pages.slice(0, 3));
+          } else {
+            setPaginationRefClone(pages);
+          }
+        }
+
         setLoading(false);
-        console.log("Response Data :", response.data);
-        setData(response.data); // Assuming the response is an array of client data
+        console.log("Response Data :", response.data.results);
+        setData(response.data.results); // Assuming the response is an array of client data
       })
       .catch((error) => {
         setLoading(false);
@@ -59,8 +106,8 @@ const Sample = () => {
     <>
       <div className="flex">
         <Navbar />
-        <div className="  mt-[4.5rem] ml-[5rem]  ">
-          <div className=" flex  justify-between  ">
+        <div className=" mt-[4.5rem] ml-[5rem] flex flex-col items-center ">
+          <div className="w-full flex  justify-between  ">
             <div>
               <h1 className="text-[2rem] font-inter font-semibold">
                 Stage 0: Sample
@@ -136,26 +183,59 @@ const Sample = () => {
                   </div>
                 ))}
               </div>
+              {paginationRefClone.length ? (
+                <div className="mt-6 flex gap-3 mx-auto justify-center w-full">
+                  <button
+                    className={`py-2 px-4 rounded-lg bg-gray-900 text-white ${
+                      currentPage !== 1
+                        ? "bg-gray-900 text-white"
+                        : "bg-gray-300 text-white"
+                    }`}
+                    disabled={currentPage === 1}
+                    onClick={() => paginationPrev()}
+                  >
+                    PREV
+                  </button>
+                  {paginationRefClone.map((page) => (
+                    <div
+                      key={page}
+                      className={
+                        currentPage === page
+                          ? "rounded-xl p-[1px] border-[3px] border-blue-500"
+                          : "rounded-xl p-[1px] border-[3px] border-[transparent]"
+                      }
+                    >
+                      <button
+                        className={`py-2 px-4 rounded-lg bg-gray-900 text-white`}
+                        onClick={() => {
+                          setData([]);
+                          setCurrentPage(page);
+                          fetchSample(page);
+                        }}
+                      >
+                        {page}
+                      </button>
+                    </div>
+                  ))}
+                  <button
+                    className={`py-2 px-4 rounded-lg bg-gray-900 text-white ${
+                      currentPage !== paginationRef[paginationRef.length - 1]
+                        ? "bg-gray-900 text-white"
+                        : "bg-gray-300 text-white"
+                    }`}
+                    disabled={
+                      currentPage === paginationRef[paginationRef.length - 1]
+                    }
+                    onClick={() => paginationNext()}
+                  >
+                    NEXT
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
             </>
           )}
-
-          <div className=" flex gap-3 my-8">
-            <button onClick={() => paginationPrev()}>PREV</button>
-            <button onClick={() => fetchSample(null)}>{paginationRef}</button>
-            <button onClick={() => fetchSample(paginationRef + 1)}>
-              {paginationRef + 1}
-            </button>
-            <button onClick={() => fetchSample(paginationRef + 2)}>
-              {paginationRef + 2}
-            </button>
-            <button onClick={() => fetchSample(paginationRef + 3)}>
-              {paginationRef + 3}
-            </button>
-            <button onClick={() => fetchSample(paginationRef + 4)}>
-              {paginationRef + 4}
-            </button>
-            <button onClick={() => paginationNext()}>NEXT</button>
-          </div>
         </div>
       </div>
     </>
