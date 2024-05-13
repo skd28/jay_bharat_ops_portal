@@ -115,7 +115,7 @@ const Create_Sample = () => {
   const searchParams = new URLSearchParams(location.search);
   const id = searchParams.get("id");
 
-  const [sampleOps, setSampleOps] = useState(0);
+  const [sampleOps, setSampleOps] = useState(null);
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [dataLoading, setDataLoading] = useState(false);
 
@@ -1731,7 +1731,7 @@ const Create_Sample = () => {
 
               <div className="text-right my-3 mb-7">
                 <Button
-                  onClick={sampleOps === 0 ? handleSubmit : handleEditSample}
+                  onClick={!!sampleOps ? handleSubmit : handleEditSample}
                   className="bg-black font-inter w-[17rem] flex gap-x-4"
                 >
                   Finalize and Summit

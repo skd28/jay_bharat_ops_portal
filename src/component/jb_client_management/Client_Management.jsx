@@ -110,7 +110,7 @@ const Client_Management = () => {
     setOpenEditPayload({ ...openEditPayload, [e.target.name]: e.target.value });
   }; */
 
-  const getClients = (page) => {
+  const getClients = (page = undefined) => {
     const token = Cookies.get("token");
     // console.log("Cokiess for Client  :",token);
     if (!token) {
@@ -358,7 +358,7 @@ const Client_Management = () => {
                   {paginationRefClone.length ? (
                     <div className="absolute bottom-0 flex gap-3">
                       <button
-                        className={`py-2 px-4 rounded-lg bg-gray-900 text-white ${
+                        className={`py-2 px-4 rounded-lg ${
                           currentPage !== 1
                             ? "bg-gray-900 text-white"
                             : "bg-gray-300 text-white"
@@ -386,7 +386,7 @@ const Client_Management = () => {
                         </div>
                       ))}
                       <button
-                        className={`py-2 px-4 rounded-lg bg-gray-900 text-white ${
+                        className={`py-2 px-4 rounded-lg ${
                           currentPage !==
                           paginationRef[paginationRef.length - 1]
                             ? "bg-gray-900 text-white"
