@@ -114,9 +114,12 @@ const Sample = () => {
               </h1>
               <p>Create, manage and remove sampling and track the process.</p>
             </div>
-            <Button className="rounded-full font-inter text-[1rem] bg-gray-700 h-12  ">
-              <Link to="/jb_admin/sample/sampling">+ Sample</Link>
-            </Button>
+
+            <Link to="/jb_admin/sample/sampling">
+              <Button className="rounded-full font-inter text-[1rem] bg-gray-700 h-12  ">
+                + Sample
+              </Button>
+            </Link>
           </div>
 
           {/*  <div className="mt-[5.5rem] flex ">
